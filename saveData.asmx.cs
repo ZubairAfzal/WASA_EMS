@@ -105,6 +105,17 @@ namespace WASA_EMS
             return result;
         }
 
+        [WebMethod]
+        public string TubewellCurrentError()
+        {
+            return average(2,1).ToString();
+        }
+
+        public double average(int a, int b)
+        {
+            double res = Convert.ToDouble(b) / 2 ;
+            return res;
+        }
 
         [WebMethod]
         public string getScheduleTime(string sender)
@@ -566,495 +577,78 @@ namespace WASA_EMS
                         while (sdr.Read())
                         {
                             DataTable dt = new DataTable();
-                            string q1 = "select distinct r.ResourceLocation,  t.TemplateName, p.ParameterName, p.paramOrder, e.ParameterValue, e.InsertionDateTime, rms.CurrentMotorOnOffStatus from tblEnergy e ";
-                            q1 += "left join tblParameter p on e.ParameterID = p.ParameterID ";
-                            q1 += "left join tblResource r on e.ResourceID = r.ResourceID ";
-                            q1 += "left join tblRemoteSensor rms on r.ResourceID = rms.ResourceID ";
-                            q1 += "left join tblTemplate t on r.TemplateID = t.TemplateID ";
-                            q1 += "where e.InsertionDateTime = (select max(InsertionDateTime) from tblEnergy where ResourceID = " + sdr["ResourceID"] + ")";
-                            q1 += "and r.ResourceID = " + sdr["ResourceID"] + "";
-                            q1 += " and t.TemplateID = 64 order by p.paramOrder";
+                            //string q1 = "select distinct r.ResourceLocation,  t.TemplateName, p.ParameterName, p.paramOrder, e.ParameterValue, e.InsertionDateTime, rms.CurrentMotorOnOffStatus from tblEnergy e ";
+                            //q1 += "left join tblParameter p on e.ParameterID = p.ParameterID ";
+                            //q1 += "left join tblResource r on e.ResourceID = r.ResourceID ";
+                            //q1 += "left join tblRemoteSensor rms on r.ResourceID = rms.ResourceID ";
+                            //q1 += "left join tblTemplate t on r.TemplateID = t.TemplateID ";
+                            //q1 += "where e.InsertionDateTime = (select max(InsertionDateTime) from tblEnergy where ResourceID = " + sdr["ResourceID"] + ")";
+                            //q1 += "and r.ResourceID = " + sdr["ResourceID"] + "";
+                            //q1 += " and t.TemplateID = 64 order by p.paramOrder";
+
+                            string q1 = "";
+                            q1 += "select top(1) r.ResourceLocation, 'Tubewell' as TemplateName, ";
+                            q1 += "CASE t.PumpStatus When 0 then 'OFF' else 'ON' END as [Pump Status] ,  ";
+                            q1 += "CASE t.[Manual] When 0 then 'OFF' else 'ON' END as [Manual Mode],  ";
+                            q1 += "CASE t.[Remote] When 0 then 'OFF' else 'ON' END as [Remote Mode],  ";
+                            q1 += "CASE t.TimeSchedule When 0 then 'OFF' else 'ON' END as [Scheduling Mode],  ";
+                            q1 += "round(t.V12, 2) as V12, round(t.V13, 2) as V13, round(t.V23, 2) as V23, round(t.V1N, 2) as V1N, round(t.V2N, 2) as V2N, round(t.V3N, 2) as V3N, ";
+                            q1 += "round(t.I1, 2) as I1, round(t.I2, 2) as I2, round(t.I3, 2) as I3, round(t.PF, 2) as [Power Factor], round(t.Frequency, 2) as Frequency, ";
+                            q1 += "round(t.PKVA, 2) as PKVA, round(t.PKW, 2) as PKW, round(t.PKVAR, 2) as PKVAR, ";
+                            q1 += "CASE t.VolatgeTrip When 0 then 'No Error' else 'Error' END as [Voltage Trip],  ";
+                            q1 += "CASE t.CurrentTrip When 0 then 'No Error' else 'Error' END as [Current Trip],  ";
+                            q1 += "round(t.WaterFlow,2) as [Water Flow (cfs)], round(t.PressureBar,2) as [Pressure(Bar)], ";
+                            q1 += "CASE t.PrimpingLevel When 0 then 'LOW' else 'FULL' END as [Priming Level],  ";
+                            q1 += "CASE t.ChlorineLevel When 0 then 'HALF' else 'FULL' END as [Chlorine Level],  ";
+                            q1 += "CASE t.IndoorLight When 0 then 'OFF' else 'ON' END as [Indoor Lights],  ";
+                            q1 += "CASE t.OutdoorLight When 0 then 'OFF' else 'ON' END as [Outdoor Lights],  ";
+                            q1 += "CASE t.ExhustFan When 0 then 'OFF' else 'ON' END as [Exhaust Fan],  ";
+                            q1 += "round(t.vib_x,2) as [Vibration Velocity in (mm/s)],round(t.vib_y,2)  as [Vibration Acceleration in (m/s2)], round(t.vib_z,2) as [Vibration Displacement in (um)], ";
+                            q1 += "t.InsertionDateTime ";
+                            q1 += "from tblTubewellsTest t ";
+                            q1 += "inner join tblResource r on t.TubeWellId = r.ResourceID ";
+                            q1 += "where t.TubeWellId = " + sdr["ResourceID"] + " ";
+                            q1 += "order by t.ID DESC ";
+
                             SqlCommand cmd1 = new SqlCommand(q1, conn);
                             SqlDataAdapter sda = new SqlDataAdapter(cmd1);
                             dt.Clear();
                             sda.Fill(dt);
                             int optionStatus = 0;
-                            int manual = 0;
-                            int remote = 0;
-                            int scheduling = 0;
-                            int pumpStatus = 0;
-                            using (SqlDataReader sdr1 = cmd1.ExecuteReader())
+                            foreach (DataRow dr in dt.Rows)
                             {
-                                while (sdr1.Read())
+                                int number = 0;
+                                foreach (DataColumn dc in dt.Columns)
                                 {
-                                    string valuee = "";
-                                    parameterValuesString += "";
-                                    if (sdr1["ParameterName"].ToString() == "V1N.")
+                                    if (number == 0)
                                     {
-                                        parameterValuesString += "V1N : ";
+                                        tempName = dr[dc].ToString();
                                     }
-                                    else if (sdr1["ParameterName"].ToString() == "V2N.")
+                                    else if (number == 1)
                                     {
-                                        parameterValuesString += "V2N : ";
-                                    }
-                                    else if (sdr1["ParameterName"].ToString() == "V3N.")
-                                    {
-                                        parameterValuesString += "V3N : ";
-                                    }
-                                    else if (sdr1["ParameterName"].ToString() == "I1.")
-                                    {
-                                        parameterValuesString += "I1 : ";
-                                    }
-                                    else if (sdr1["ParameterName"].ToString() == "I2.")
-                                    {
-                                        parameterValuesString += "I2 : ";
-                                    }
-                                    else if (sdr1["ParameterName"].ToString() == "I3.")
-                                    {
-                                        parameterValuesString += "I3 : ";
-                                    }
-                                    else if (sdr1["ParameterName"].ToString() == "Frequency.")
-                                    {
-                                        parameterValuesString += "Frequency : ";
-                                    }
-                                    else if (sdr1["ParameterName"].ToString() == "PKVA.")
-                                    {
-                                        parameterValuesString += "PKVA : ";
-                                    }
-                                    else if (sdr1["ParameterName"].ToString() == "PF.")
-                                    {
-                                        parameterValuesString += "Power Factor : ";
-                                    }
-                                    else if (sdr1["ParameterName"].ToString() == "Remote.")
-                                    {
-                                        parameterValuesString += "Remote Mode : ";
-                                    }
-                                    else if (sdr1["ParameterName"].ToString() == "PumpStatus")
-                                    {
-                                        parameterValuesString += "Pump Status : ";
-                                    }
-                                    else if (sdr1["ParameterName"].ToString() == "CurrentTrip.")
-                                    {
-                                        parameterValuesString += "Current Trip : ";
-                                    }
-                                    else if (sdr1["ParameterName"].ToString() == "VoltageTrip.")
-                                    {
-                                        parameterValuesString += "Voltage Trip : ";
-                                    }
-                                    else if (sdr1["ParameterName"].ToString() == "TimeSchedule.")
-                                    {
-                                        parameterValuesString += "Scheduling Mode : ";
-                                    }
-                                    else if (sdr1["ParameterName"].ToString() == "ChlorineLevel.")
-                                    {
-                                        parameterValuesString += "Chlorine Level : ";
-                                    }
-                                    else if (sdr1["ParameterName"].ToString() == "WaterFlow(Cusec).")
-                                    {
-                                        parameterValuesString += "Water Flow (cfs) : ";
-                                    }
-                                    else if (sdr1["ParameterName"].ToString() == "PKVAR.")
-                                    {
-                                        parameterValuesString += "PKVAR : ";
-                                    }
-                                    else if (sdr1["ParameterName"].ToString() == "PKW.")
-                                    {
-                                        parameterValuesString += "PKW : ";
-                                    }
-                                    else if (sdr1["ParameterName"].ToString() == "V12")
-                                    {
-                                        parameterValuesString += "V12 : ";
-                                    }
-                                    else if (sdr1["ParameterName"].ToString() == "V13")
-                                    {
-                                        parameterValuesString += "V13 : ";
-                                    }
-                                    else if (sdr1["ParameterName"].ToString() == "V23")
-                                    {
-                                        parameterValuesString += "V23 : ";
-                                    }
-                                    else if (sdr1["ParameterName"].ToString() == "PrimingLevel")
-                                    {
-                                        parameterValuesString += "Priming Level : ";
-                                    }
-                                    else if (sdr1["ParameterName"].ToString() == "Pressure(Bar)")
-                                    {
-                                        parameterValuesString += "Pressure(Bar) : ";
-                                    }
-                                    else if (sdr1["ParameterName"].ToString() == "Manual")
-                                    {
-                                        parameterValuesString += "Manual Mode : ";
-                                    }
-                                    else if (sdr1["ParameterName"].ToString() == "IndoorLight")
-                                    {
-                                        parameterValuesString += "Indoor Lights : ";
-                                    }
-                                    else if (sdr1["ParameterName"].ToString() == "OutdoorLight")
-                                    {
-                                        parameterValuesString += "Outdoor Lights : ";
-                                    }
-                                    else if (sdr1["ParameterName"].ToString() == "Exhaust Fan")
-                                    {
-                                        parameterValuesString += "Exhaust Fan : ";
-                                    }
-                                    else if (sdr1["ParameterName"].ToString() == "PumpStatus1.")
-                                    {
-                                        parameterValuesString += "Pump 1 Status : ";
-                                    }
-                                    else if (sdr1["ParameterName"].ToString() == "PumpStatus2.")
-                                    {
-                                        parameterValuesString += "Pump 2 Status : ";
-                                    }
-                                    else if (sdr1["ParameterName"].ToString() == "PumpStatus3.")
-                                    {
-                                        parameterValuesString += "Pump 3 Status : ";
-                                    }
-                                    else if (sdr1["ParameterName"].ToString() == "PumpStatus4.")
-                                    {
-                                        parameterValuesString += "Pump 4 Status : ";
-                                    }
-                                    else if (sdr1["ParameterName"].ToString() == "PumpStatus5.")
-                                    {
-                                        parameterValuesString += "Pump 5 Status : ";
-                                    }
-                                    else if (sdr1["ParameterName"].ToString() == "Well1Level(ft)")
-                                    {
-                                        parameterValuesString += "Wet Well Level No. 1 (ft) : ";
-                                    }
-                                    else if (sdr1["ParameterName"].ToString() == "PumpStatus6.")
-                                    {
-                                        parameterValuesString += "Pump 6 Status : ";
-                                    }
-                                    else if (sdr1["ParameterName"].ToString() == "PumpStatus7.")
-                                    {
-                                        parameterValuesString += "Pump 7 Status : ";
-                                    }
-                                    else if (sdr1["ParameterName"].ToString() == "PumpStatus8.")
-                                    {
-                                        parameterValuesString += "Pump 8 Status : ";
-                                    }
-                                    else if (sdr1["ParameterName"].ToString() == "PumpStatus9.")
-                                    {
-                                        parameterValuesString += "Pump 9 Status : ";
-                                    }
-                                    else if (sdr1["ParameterName"].ToString() == "PumpStatuss10.")
-                                    {
-                                        parameterValuesString += "Pump 10 Status : ";
-                                    }
-                                    else if (sdr1["ParameterName"].ToString() == "Well2Level(ft)")
-                                    {
-                                        parameterValuesString += "Wet Well Level No. 2 (ft) : ";
-                                    }
-                                    else if (sdr1["ParameterName"].ToString() == "vib_M")
-                                    {
-                                        parameterValuesString += "Vibration (m) : ";
-                                    }
-                                    else if (sdr1["ParameterName"].ToString() == "vib_Ms")
-                                    {
-                                        parameterValuesString += "Vibration (m/s) : ";
-                                    }
-                                    else if (sdr1["ParameterName"].ToString() == "vib_Ms2")
-                                    {
-                                        parameterValuesString += "Vibration (m/s2) : ";
-                                    }
-                                    else if (sdr1["ParameterName"].ToString() == "vib_x")
-                                    {
-                                        parameterValuesString += "Vibration Velocity in (mm/s) : ";
-                                    }
-                                    else if (sdr1["ParameterName"].ToString() == "vib_y")
-                                    {
-                                        parameterValuesString += "Vibration Acceleration in (m/s2) : ";
-                                    }
-                                    else if (sdr1["ParameterName"].ToString() == "vib_z")
-                                    {
-                                        parameterValuesString += "Vibration Displacement in (um) : ";
-                                    }
 
-                                    else
-                                    {
-                                        parameterValuesString += sdr1["ParameterName"].ToString() + ": ";
                                     }
-                                    //parameterValuesString += ssdr1["ParameterName"].ToString() + ": ";
-                                    if (sdr1["ParameterName"].ToString() == "AutoModeOn")
+                                    else if (number == 2)
                                     {
-                                        if (sdr1["ParameterValue"].ToString() == "0")
+                                        parameterValuesString += dc.ColumnName + " : " + dr[dc].ToString() + "<br />";
+                                        if (dr[dc].ToString() == "OFF")
                                         {
-                                            valuee = "OFF";
+                                            optionStatus = 0;
                                         }
                                         else
                                         {
-                                            valuee = "ON";
+                                            optionStatus = 1;
                                         }
                                     }
-                                    else if (sdr1["ParameterName"].ToString() == "PumpStatus")
+                                    else if (number > 31)
                                     {
-                                        if (sdr1["ParameterValue"].ToString() == "0")
-                                        {
-                                            valuee = "OFF";
-                                        }
-                                        else
-                                        {
-                                            valuee = "ON";
-                                            optionStatus += 1;
-                                        }
-                                    }
-                                    else if (sdr1["ParameterName"].ToString() == "PumpStatus1.")
-                                    {
-                                        if (sdr1["ParameterValue"].ToString() == "0")
-                                        {
-                                            valuee = "OFF";
-                                        }
-                                        else
-                                        {
-                                            valuee = "ON";
-                                            optionStatus += 1;
-                                        }
-                                    }
-                                    else if (sdr1["ParameterName"].ToString() == "PumpStatus2.")
-                                    {
-                                        if (sdr1["ParameterValue"].ToString() == "0")
-                                        {
-                                            valuee = "OFF";
-                                        }
-                                        else
-                                        {
-                                            valuee = "ON";
-                                            optionStatus += 1;
-                                        }
-                                    }
-                                    else if (sdr1["ParameterName"].ToString() == "PumpStatus3.")
-                                    {
-                                        if (sdr1["ParameterValue"].ToString() == "0")
-                                        {
-                                            valuee = "OFF";
-                                        }
-                                        else
-                                        {
-                                            valuee = "ON";
-                                            optionStatus += 1;
-                                        }
-                                    }
-                                    else if (sdr1["ParameterName"].ToString() == "PumpStatus4.")
-                                    {
-                                        if (sdr1["ParameterValue"].ToString() == "0")
-                                        {
-                                            valuee = "OFF";
-                                        }
-                                        else
-                                        {
-                                            valuee = "ON";
-                                            optionStatus += 1;
-                                        }
-                                    }
-                                    else if (sdr1["ParameterName"].ToString() == "PumpStatus5.")
-                                    {
-                                        if (sdr1["ParameterValue"].ToString() == "0")
-                                        {
-                                            valuee = "OFF";
-                                        }
-                                        else
-                                        {
-                                            valuee = "ON";
-                                            optionStatus += 1;
-                                        }
-                                    }
-                                    else if (sdr1["ParameterName"].ToString() == "PumpStatus6.")
-                                    {
-                                        if (sdr1["ParameterValue"].ToString() == "0")
-                                        {
-                                            valuee = "OFF";
-                                        }
-                                        else
-                                        {
-                                            valuee = "ON";
-                                            optionStatus += 1;
-                                        }
-                                    }
-                                    else if (sdr1["ParameterName"].ToString() == "PumpStatus7.")
-                                    {
-                                        if (sdr1["ParameterValue"].ToString() == "0")
-                                        {
-                                            valuee = "OFF";
-                                        }
-                                        else
-                                        {
-                                            valuee = "ON";
-                                            optionStatus += 1;
-                                        }
-                                    }
-                                    else if (sdr1["ParameterName"].ToString() == "PumpStatus8.")
-                                    {
-                                        if (sdr1["ParameterValue"].ToString() == "0")
-                                        {
-                                            valuee = "OFF";
-                                        }
-                                        else
-                                        {
-                                            valuee = "ON";
-                                            optionStatus += 1;
-                                        }
-                                    }
-                                    else if (sdr1["ParameterName"].ToString() == "PumpStatus9.")
-                                    {
-                                        if (sdr1["ParameterValue"].ToString() == "0")
-                                        {
-                                            valuee = "OFF";
-                                        }
-                                        else
-                                        {
-                                            valuee = "ON";
-                                            optionStatus += 1;
-                                        }
-                                    }
-                                    else if (sdr1["ParameterName"].ToString() == "PumpStatuss10.")
-                                    {
-                                        if (sdr1["ParameterValue"].ToString() == "0")
-                                        {
-                                            valuee = "OFF";
-                                        }
-                                        else
-                                        {
-                                            valuee = "ON";
-                                            optionStatus += 1;
-                                        }
-                                    }
-                                    else if (sdr1["ParameterName"].ToString() == "CurrentTrip.")
-                                    {
-                                        if (sdr1["ParameterValue"].ToString() == "0")
-                                        {
-                                            valuee = "No Error";
-                                        }
-                                        else
-                                        {
-                                            valuee = "Error";
-                                        }
-                                    }
-                                    else if (sdr1["ParameterName"].ToString() == "VoltageTrip.")
-                                    {
-                                        if (sdr1["ParameterValue"].ToString() == "0")
-                                        {
-                                            valuee = "No Error";
-                                        }
-                                        else
-                                        {
-                                            valuee = "Error";
-                                        }
-                                    }
-                                    else if (sdr1["ParameterName"].ToString() == "Manual")
-                                    {
-                                        if (sdr1["ParameterValue"].ToString() == "0")
-                                        {
-                                            valuee = "OFF";
-                                        }
-                                        else
-                                        {
-                                            valuee = "ON";
-                                        }
-                                        manual = Convert.ToInt32(sdr1["ParameterValue"]);
-                                    }
-                                    else if (sdr1["ParameterName"].ToString() == "Remote.")
-                                    {
-                                        if (manual == 0 && sdr1["ParameterValue"].ToString() == "1")
-                                        {
-                                            valuee = "ON";
-                                        }
-                                        else
-                                        {
-                                            valuee = "OFF";
-                                        }
-                                        remote = Convert.ToInt32(sdr1["ParameterValue"]);
-                                    }
-                                    else if (sdr1["ParameterName"].ToString() == "TimeSchedule.")
-                                    {
-                                        if (manual == 0 && remote == 0 && sdr1["ParameterValue"].ToString() == "1")
-                                        {
-                                            valuee = "ON";
-                                        }
-                                        else
-                                        {
-                                            valuee = "OFF";
-                                        }
-                                    }
-                                    else if (sdr1["ParameterName"].ToString() == "ChlorineLevel.")
-                                    {
-                                        if (sdr1["ParameterValue"].ToString() == "0")
-                                        {
-                                            valuee = "HALF";
-                                        }
-                                        else
-                                        {
-                                            valuee = "FULL";
-                                        }
-                                    }
-                                    else if (sdr1["ParameterName"].ToString() == "PrimingLevel")
-                                    {
-                                        if (sdr1["ParameterValue"].ToString() == "0")
-                                        {
-                                            valuee = "LOW";
-                                        }
-                                        else
-                                        {
-                                            valuee = "FULL";
-                                        }
-                                    }
-                                    
-                                    else if (sdr1["ParameterName"].ToString() == "IndoorLight")
-                                    {
-                                        if (sdr1["ParameterValue"].ToString() == "0")
-                                        {
-                                            valuee = "OFF";
-                                        }
-                                        else
-                                        {
-                                            valuee = "ON";
-                                        }
-                                    }
-                                    else if (sdr1["ParameterName"].ToString() == "OutdoorLight")
-                                    {
-                                        if (sdr1["ParameterValue"].ToString() == "0")
-                                        {
-                                            valuee = "OFF";
-                                        }
-                                        else
-                                        {
-                                            valuee = "ON";
-                                        }
-                                    }
-                                    else if (sdr1["ParameterName"].ToString() == "Exhaust Fan")
-                                    {
-                                        if (sdr1["ParameterValue"].ToString() == "0")
-                                        {
-                                            valuee = "OFF";
-                                        }
-                                        else
-                                        {
-                                            valuee = "ON";
-                                        }
-                                    }
-                                    else if (sdr1["ParameterName"].ToString() == "WaterFlow(Cusec).")
-                                    {
-                                        valuee = Math.Round((Convert.ToDouble(sdr1["ParameterValue"])/101), 2).ToString();
-                                    }
-                                    else if (sdr1["ParameterName"].ToString() == "vib_x")
-                                    {
-                                        valuee = Math.Round((Convert.ToDouble(sdr1["ParameterValue"]) ), 2).ToString();
-                                    }
-                                    else if (sdr1["ParameterName"].ToString() == "vib_y")
-                                    {
-                                        valuee = Math.Round((Convert.ToDouble(sdr1["ParameterValue"]) *0.3), 2).ToString();
-                                    }
-                                    else if (sdr1["ParameterName"].ToString() == "vib_z")
-                                    {
-                                        valuee = Math.Round((Convert.ToDouble(sdr1["ParameterValue"]) / 0.3), 2).ToString();
+                                        datetimed = dr[dc].ToString();
                                     }
                                     else
                                     {
-                                        valuee = Math.Round(Convert.ToDouble(sdr1["ParameterValue"]), 2).ToString();
+                                        parameterValuesString += dc.ColumnName + " : " + dr[dc].ToString() + "<br />";
                                     }
-                                    parameterValuesString += valuee;
-                                    parameterValuesString += "<br />";
-                                    datetimed = sdr1["InsertionDateTime"].ToString();
-                                    //optionStatus = sdr1["CurrentMotorOnOffStatus"].ToString();
+                                    number++;
                                 }
                             }
                             string theStatus = "False";

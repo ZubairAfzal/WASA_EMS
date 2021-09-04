@@ -42,8 +42,8 @@
             pumpStatus10 = obj.pumpStatus10;
             well1Level = obj.wellLevel1;
             well2Level = obj.wellLevel2;
-			$('.well-2').text('Wet Well No. 1 : ' + parseInt(well1Level) + ' ft');
-            $('.well-3').text('Wet Well No. 2 : ' + parseInt(well2Level) + ' ft');
+            $('.well-2').text('Wet Well No. 2 : ' + parseInt(well2Level) + ' ft');
+            $('.well-3').text('Wet Well No. 1 : ' + parseInt(well1Level) + ' ft');
             var totalPumps = parseInt(pumpStatus1) + parseInt(pumpStatus2) + parseInt(pumpStatus3) + parseInt(pumpStatus4) + parseInt(pumpStatus5) + parseInt(pumpStatus6) + parseInt(pumpStatus7) + parseInt(pumpStatus8) + parseInt(pumpStatus9) + parseInt(pumpStatus10);
             if (parseInt(totalPumps) >= 1) {
                 //console.log('1.00');
