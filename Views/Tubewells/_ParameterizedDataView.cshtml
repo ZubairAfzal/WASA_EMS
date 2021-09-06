@@ -397,39 +397,6 @@
 		});
 
 
-        @*chart5 = AmCharts.makeChart("chartdiv5", {
-            "type": "pie",
-            "theme": "light",
-            "legend": {
-                "position": "bottom",
-                "marginBottom": 50,
-                "marginLeft": 70,
-                "autoMargins": false
-            },
-            "dataProvider": [{ "title": "Available Hours", "value": @Model.First().availableHours, "Color": "#67b7dc" }, { "title": "Non-Available Hours", "value": 8, "Color": "orange" }, { "title": "Total Hours", "value": @Model.First().totalHours, "Color": "green" }],
-            "valueField": "value",
-            "titleField": "title",
-            "colorField": "Color",
-            "balloon": {
-                "fixedPosition": true
-            },
-            "export": {
-                "enabled": true
-            },
-            "listeners": [{
-                "event": "clickSlice",
-                "method": function (e) {
-                    var dp = e.dataItem.dataContext;
-                    var title = dp.title;
-                    if (title == "Operations") {
-                        location.href = "https://wasacms.pitb.gov.pk/complaint/0/0/1";
-                    } else if (title == "Revenue") {
-                        location.href = "https://wasacms.pitb.gov.pk/complaint/0/0/2";
-                    }
-                }
-            }]
-        });*@
-
         chart5.data = [{
             "mode": "Available Hours",
             "Hours": @Model.First().availableHours
@@ -446,10 +413,10 @@
 		pieSeries5.dataFields.value = "Hours";
 		pieSeries5.dataFields.category = "mode";
 		//pieSeries1.labels.template.disabled = true;
-		//pieSeries5.alignLabels = false;
-        //pieSeries5.labels.template.bent = true;
-        //pieSeries5.labels.template.radius = 3;
-        //pieSeries5.labels.template.padding(0, 0, 0, 0);
+		pieSeries5.alignLabels = false;
+        pieSeries5.labels.template.bent = true;
+        pieSeries5.labels.template.radius = 3;
+        pieSeries5.labels.template.padding(0, 0, 0, 0);
 		//pieSeries5.ticks.template.disabled = true;
 		pieSeries5.labels.template.text = "{category}: {value.value}";
         pieSeries5.slices.template.tooltipText = "{category}: {value.value}";
@@ -768,21 +735,21 @@
                                 <div class="col-md-3 col-sm-12 col-lg-3 chartdiv" id="chartdiv9" style="display:none !important"></div>
 
                             }
-                            else if (Model.First().parameterName == "V12" ||
-                                Model.First().parameterName == "V13" ||
-                                Model.First().parameterName == "V23" ||
-                                Model.First().parameterName == "V1N" ||
-                                Model.First().parameterName == "V2N" ||
-                                Model.First().parameterName == "V3N" ||
-                                Model.First().parameterName == "I1" ||
-                                Model.First().parameterName == "I2" ||
-                                Model.First().parameterName == "I3" ||
-                                Model.First().parameterName == "PF" ||
-                                Model.First().parameterName == "PKVA" ||
-                                Model.First().parameterName == "PKW" ||
-                                Model.First().parameterName == "PKVAR" ||
+                            else if (Model.First().parameterName == "Line Voltage (V12)" ||
+                                Model.First().parameterName == "Line Voltage (V13)" ||
+                                Model.First().parameterName == "Line Voltage (V23)" ||
+                                Model.First().parameterName == "Phase Voltage (V1N)" ||
+                                Model.First().parameterName == "Phase Voltage (V2N)" ||
+                                Model.First().parameterName == "Phase Voltage (V3N)" ||
+                                Model.First().parameterName == "Current (I1)" ||
+                                Model.First().parameterName == "Current (I2)" ||
+                                Model.First().parameterName == "Current (I3)" ||
+                                Model.First().parameterName == "Power Factor (PF)" ||
+                                Model.First().parameterName == "Power (KVA)" ||
+                                Model.First().parameterName == "Power (KW)" ||
+                                Model.First().parameterName == "Power (KVAR)" ||
                                 Model.First().parameterName == "Water Flow (cfs)" ||
-                                Model.First().parameterName == "Pressure(Bar)")
+                                Model.First().parameterName == "Line Pressure (Bar)")
                             {
                                 <div class="col-md-3 col-sm-12 col-lg-3 chartdiv" id="chartdiv1" style="display:none !important"></div>
                                 <div class="col-md-3 col-sm-12 col-lg-3 chartdiv" id="chartdiv2" style="display:none !important"></div>
@@ -856,7 +823,7 @@
                                 <div class="col-md-3 col-sm-12 col-lg-3 chartdiv" id="chartdiv8" style="display:none !important"></div>
                                 <div class="col-md-12 col-sm-12 col-lg-12 chartdiv" id="chartdiv9"></div>
                             }
-                            else if (Model.First().parameterName == "Frequency")
+                            else if (Model.First().parameterName == "Frequency (Hz)")
                             {
                                 <div class="col-md-3 col-sm-12 col-lg-3 chartdiv" id="chartdiv1" style="display:none !important"></div>
                                 <div class="col-md-3 col-sm-12 col-lg-3 chartdiv" id="chartdiv2" style="display:none !important"></div>
