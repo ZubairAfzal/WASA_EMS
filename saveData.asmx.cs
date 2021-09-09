@@ -106,9 +106,11 @@ namespace WASA_EMS
         }
 
         [WebMethod]
-        public string TubewellCurrentError()
+        public string TubewellCurrentError(string sender, string i1, string i2, string i3)
         {
-            return average(2,1).ToString();
+            BAL bal = new BAL();
+            string result = bal.currentError(sender, i1, i2, i3);
+            return result;
         }
 
         public double average(int a, int b)
