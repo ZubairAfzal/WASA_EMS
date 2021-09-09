@@ -373,7 +373,7 @@ namespace WASA_EMS
             //string query2 = "update tblSetMode set Mode = 1 where ResourceID = (select ResourceID from tblResource where MobileNumber = '" + id + "')";
             string addNotification = "insert into tblNotifications (ResourceID, ParameterID, ParameterValue, notificationTime, Comment) ";
             addNotification += " values (";
-            addNotification += " (select ResourceID from tblResource where MobileNumber = '" + id + "'),118,0, CONVERT(CHAR(24), CONVERT(DATETIME, '" + TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTime.UtcNow, "Pakistan Standard Time").ToString() + "', 103), 121) , 'Over/Under Voltage Error Detected  (I1 : " + i1 + ", I2 : " + i2 + ", I3 : " + i3 + ") at \"'+(select ResourceLocation from tblResource where MobileNumber = '" + id + "')+'\" ' ";
+            addNotification += " (select ResourceID from tblResource where MobileNumber = '" + id + "'),118,0, CONVERT(CHAR(24), CONVERT(DATETIME, '" + TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTime.UtcNow, "Pakistan Standard Time").ToString() + "', 103), 121) , 'Over/Under Current Error Detected  (I1 : " + i1 + ", I2 : " + i2 + ", I3 : " + i3 + ") at \"'+(select ResourceLocation from tblResource where MobileNumber = '" + id + "')+'\" ' ";
             addNotification += " )";
             using (SqlConnection conn = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString))
             {
