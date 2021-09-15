@@ -2351,7 +2351,7 @@ namespace WASA_EMS.Controllers
                             aquery += "SELECT top 14000 ParameterID, ParameterValue, InsertionDateTime FROM CTE WHERE RN < 14401 Order by InsertionDateTime ASC";
                             string theQuery = aquery;
 
-                            theQuery = "select 182 as ParameterID, t.PumpStatus as ParameterValue, t.InsertionDateTime from tblTubewellsTest t ";
+                            theQuery = "select 182 as ParameterID, t.vib_x as ParameterValue, t.InsertionDateTime from tblTubewellsTest t ";
                             theQuery += "where t.TubeWellId = " + Convert.ToInt32(drPar["ResourceID"]) + " and t.InsertionDateTime >= CONVERT(CHAR(24), CONVERT(DATETIME, '" + FinalTimeFrom + "', 103), 121) and t.InsertionDateTime <= CONVERT(CHAR(24), CONVERT(DATETIME, '" + FinalTimeTo + "', 103), 121) order by InsertionDateTime ASC";
 
 
