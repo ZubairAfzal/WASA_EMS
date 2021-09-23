@@ -47,165 +47,63 @@
     <script src="https://cdn.amcharts.com/lib/4/themes/animated.js"></script>
 
     <script>
+        var jsonObj = @Html.Raw(ViewData["AllData"]);
+        //jsonObj = JSON.parse(JSON.parse(jsonObj))
+        //var jsonObj = JSON.parse(@(ViewData["AllData"]).replace(/(&quot\;)/g, "\""));
+        
 
         am4core.ready(function () {
-
-            // Themes begin
             am4core.useTheme(am4themes_animated);
-            // Themes end
-
-
             var chart = am4core.create("chartContainer1", am4charts.XYChart);
-
-            var jsonObj =  @Html.Raw((ViewData["AllData"]));
-            //console.log(jsonObj)
-            var data = [];
-            var data1 = [];
-            var data2 = [];
-            var data3 = [];
-            var data4 = [];
-            var data5 = [];
-            var data6 = [];
-            var data7 = [];
-            var value = 0;
-            for (var it = 0; it < jsonObj.length; it++) {
-                //alert(jsonObj.length);
-                var location = jsonObj[it].locationName;
-                for (var i = 0; i < jsonObj[it].pumpStatus.length; i++) {
-                    var Thedate = jsonObj[it].LogTime[i];
-                    var changeDate = moment(Thedate, 'DD/MM/YYYY HH:mm:ss A').format("MM/DD/YYYY HH:mm:ss");
-                    var dateObj = new Date((changeDate));
-                    //console.log(dateObj);
-                    value = jsonObj[it].pumpStatus[i];
-                    data.push({ location: location, paramameter: 'Pump Status', date: dateObj, value: value });
-                    if (it == 0) {
-                        data1.push({ location: location, paramameter: 'Pump Status', date: dateObj, value: value });
-                    }
-                    else if(it == 1) {
-                        data2.push({ location: location, paramameter: 'Pump Status', date: dateObj, value: value });
-                    }
-                    else if (it == 2) {
-                        data3.push({ location: location, paramameter: 'Pump Status', date: dateObj, value: value });
-                    }
-                    else if (it == 3) {
-                        data4.push({ location: location, paramameter: 'Pump Status', date: dateObj, value: value });
-                    }
-                    else if (it == 4) {
-                        data5.push({ location: location, paramameter: 'Pump Status', date: dateObj, value: value });
-                    }
-                    else if (it == 5) {
-                        data6.push({ location: location, paramameter: 'Pump Status', date: dateObj, value: value });
-                    }
-                    else {
-                        data7.push({ location: location, paramameter: 'Pump Status', date: dateObj, value: value });
-                    }
-                }
-            }
-            //console.log(data1);
-            //console.log(data2);
-            //console.log(data3);
-            //console.log(data4);
-            //console.log(data5);
-            //console.log(data6);
-            //console.log(data7);
-            function toDate(dateStr) {
-                var parts = dateStr.split("-")
-                return new Date(parts[2], parts[1] - 1, parts[0])
-            }
-            //data = data.reverse();
-            //data.sort(function (a, b) {
-            //    var c = new Date(a.date);
-            //    var d = new Date(b.date);
-            //    return c - d;
-            //});
-
-            var series = chart.series.push(new am4charts.LineSeries());
-            series.dataFields.dateX = "date";
-            series.name = "cars";
-            series.dataFields.valueY = "cars";
-            series.tooltipHTML = "<img src='https://www.amcharts.com/lib/3/images/car.png' style='vertical-align:bottom; margin-right: 10px; width:28px; height:21px;'><span style='font-size:14px; color:#000000;'><b>{valueY.value}</b></span>";
-            series.tooltipText = "[#000]{valueY.value}[/]";
-            series.tooltip.background.fill = am4core.color("#FFF");
-            series.tooltip.getStrokeFromObject = true;
-            series.tooltip.background.strokeWidth = 3;
-            series.tooltip.getFillFromObject = false;
-            series.fillOpacity = 0.6;
-            series.strokeWidth = 2;
-            series.stacked = true;
-
-            chart.data = data;
-            //console.log(chart.data);
-            // Create axes
-            //chart.dateFormatter.inputDateFormat = "dd-MM-yyyy";
+            chart.paddingRight = 20;
             var dateAxis = chart.xAxes.push(new am4charts.DateAxis());
             dateAxis.baseInterval = {
                 "timeUnit": "minute",
                 "count": 1
             };
-            dateAxis.tooltipDateFormat = "HH:MM, d MMMM";
-
+            dateAxis.tooltipDateFormat = " d-MM-yyyy hh:mm:ss a";
             var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
             valueAxis.tooltip.disabled = true;
-            valueAxis.title.text = "Status";
+            valueAxis.renderer.labels.template.disabled = true;
 
-            var series = chart.series.push(new am4charts.LineSeries());
-            series.dataFields.dateX = "date";
-            series.dataFields.valueY = "value";
-            series.tooltipText = "Pump Status: [bold]{valueY}[/]";
-            //series.template.tooltipText = "{categoryX}: {valueY}";
-            series.fillOpacity = 0.3;
-
-
-            var legend = new am4charts.Legend();
-            legend.parent = chart.chartContainer;
-            //legend.itemContainers.template.togglable = false;
-            legend.marginTop = 20;
-            legend.fontSize = 10;
-
-            series.events.on("ready", function (ev) {
-                var legenddata = [];
-                series.columns.each(function (column) {
-                    legenddata.push({
-                        name: column.dataItem.categoryX,
-                        fill: column.fill,
-                        columnDataItem: column.dataItem
-                    });
-                });
-                legend.data = legenddata;
-            });
-
-            legend.itemContainers.template.events.on("hit", function (ev) {
-                //console.log("Clicked on ", ev.target.dataItem.className);
-                if (!ev.target.isActive) {
-                    ev.target.dataItem.dataContext.columnDataItem.hide();
+            for (var j = 0; j < jsonObj.length; j++) {
+                if (jsonObj[j].pumpStatus.length === 0) { }
+                else
+                {
+                    var series = chart.series.push(new am4charts.LineSeries());
+                    var data = [];
+                    //console.log(jsonObj[j].locationName);
+                    for (var i = 0; i < jsonObj[j].pumpStatus.length; i++) {
+                        var Thedate = jsonObj[j].LogTime[i];
+                        var changeDate = moment(Thedate, 'DD/MM/YYYY HH:mm:ss A').format("MM/DD/YYYY HH:mm:ss");
+                        var dateObj = new Date((changeDate));
+                        var value = jsonObj[j].pumpStatus[i];
+                        var location = jsonObj[j].locationName;
+                        if (jsonObj[j].pumpStatus[i] == 0) {
+                            data.push({ location: location, paramameter: 'Pump Status', date: dateObj, value: value, status: 'OFF' });
+                        }
+                        else {
+                            data.push({ location: location, paramameter: 'Pump Status', date: dateObj, value: value, status: 'ON' });
+                        }
+                    }
+                    series.data = data;
+                    series.dataFields.dateX = "date";
+                    series.dataFields.valueY = "value";
+                    series.dataFields.status = "status";
+                    series.dataFields.location = "location";
+                    series.tooltipText = "{location} : Pump Status: [bold]{status}[/] ";
+                    series.name = jsonObj[j].locationName;
+                    series.fillOpacity = 0.3;
                 }
-                else {
-                    ev.target.dataItem.dataContext.columnDataItem.show();
-                }
-            });
-
-            legend.itemContainers.template.events.on("over", function (ev) {
-                ev.target.dataItem.dataContext.columnDataItem.column.isHover = true;
-                ev.target.dataItem.dataContext.columnDataItem.column.showTooltip();
-            });
-
-            legend.itemContainers.template.events.on("out", function (ev) {
-                ev.target.dataItem.dataContext.columnDataItem.column.isHover = false;
-                ev.target.dataItem.dataContext.columnDataItem.column.hideTooltip();
-            });
-
+            }
             chart.cursor = new am4charts.XYCursor();
             chart.cursor.lineY.opacity = 0;
-            chart.scrollbarX = new am4charts.XYChartScrollbar();
-            chart.scrollbarX.series.push(series);
 
-
-            dateAxis.start = 0.8;
-            dateAxis.keepSelection = true;
+            chart.legend = new am4charts.Legend();
+    });
 
 
 
-        }); // end am4core.ready()
     </script>
 </body>
 
