@@ -599,7 +599,7 @@ namespace WASA_EMS
                             q1 += "round(t.PKVA, 2) as PKVA, round(t.PKW, 2) as PKW, round(t.PKVAR, 2) as PKVAR, ";
                             q1 += "CASE t.VolatgeTrip When 0 then 'No Error' else 'Error' END as [Voltage Trip],  ";
                             q1 += "CASE t.CurrentTrip When 0 then 'No Error' else 'Error' END as [Current Trip],  ";
-                            q1 += "round(t.WaterFlow,2) as [Water Flow (cfs)], round(t.PressureBar,2) as [Pressure(Bar)], ";
+                            q1 += "cast(round(t.WaterFlow/101.94,2) as numeric(36,2)) as [Water Flow (cfs)], round(t.PressureBar,2) as [Pressure(Bar)], ";
                             q1 += "CASE t.PrimpingLevel When 0 then 'LOW' else 'FULL' END as [Priming Level],  ";
                             q1 += "CASE t.ChlorineLevel When 0 then 'HALF' else 'FULL' END as [Chlorine Level],  ";
                             q1 += "CASE t.IndoorLight When 0 then 'OFF' else 'ON' END as [Indoor Lights],  ";
