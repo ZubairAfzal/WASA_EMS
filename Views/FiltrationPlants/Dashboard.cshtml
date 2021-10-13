@@ -1,0 +1,415 @@
+﻿
+
+
+@{
+    ViewBag.Title = "Dashboard";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+
+@model List<string>
+
+<!DOCTYPE html>
+
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<link href="~/Content/custom.css" rel="stylesheet" />
+<link href="~/Content/datatables.min.css" rel="stylesheet" />
+<link href="~/Metronic/assets/global/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+<link href="~/Metronic/assets/global/plugins/bootstrap-daterangepicker/daterangepicker.min.css" rel="stylesheet" />
+<link href="~/Metronic/assets/global/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css" rel="stylesheet" />
+<link href="~/Metronic/assets/global/plugins/bootstrap-timepicker/css/bootstrap-timepicker.min.css" rel="stylesheet" />
+<link href="~/Metronic/assets/global/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.css" />
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.bundle.min.js"></script>
+<script src="~/Metronic/assets/global/scripts/bootstrap-select.min.js"></script>
+<script src="~/Metronic/assets/global/plugins/moment.min.js"></script>
+
+<div class="row">
+    <div class="container-fluid">
+        <div class="portlet light ">
+            <div class="portlet-body">
+
+
+                <!-- DataTable Row -->
+
+                <div class="row">
+                    <div class="container-fluid">
+                        <!-- BEGIN EXAMPLE TABLE PORTLET-->
+                        <div class="portlet light bordered">
+                            <div class="row widget-row">
+                                <div class="col-md-1">
+                                    <img src="~/Assets/img/Rain.png" style="width:90px;" />
+                                </div>
+                                <div class="col-md-11">
+                                    <div class="col-md-4 col-sm-12">
+                                        <!-- BEGIN WIDGET THUMB -->
+                                        <div class="widget-thumb widget-bg-color-white text-uppercase margin-bottom-20 " style="background-color:transparent; border-radius:10px !important; height: 100px; padding: 0px !important; ">
+                                            <div class="col-md-3 col-sm-3 col-xs-3" style="background:linear-gradient(to right, #8ac340 0%, #31ab46 100%); height:100px; line-height:100px;border-right:2px solid green;border-radius: 10px 0px 0px 10px !important;text-align: center; opacity:0.8; ">
+                                                <img src="~/Assets/img/gol.png" style="width:50px;" />
+                                            </div>
+                                            <div class="col-md-9 col-sm-9 col-xs-9" style="text-align: center; padding-top: 20px;height: 100px;line-height: 40px;background-color: #5dabdc;border-radius: 0px 10px 10px 0px !important; opacity:0.8;">
+                                                <h4 class="widget-thumb-heading" style="color:white; text-align:center; margin:0 0 5px;">Total Filtration Plants</h4>
+                                                <hr style="border-top:3px solid white; margin: 10px 4px 4px 4px;" />
+                                                <div class="widget-thumb-wrap">
+                                                    <div class="widget-thumb-body">
+                                                        <span class="widget-thumb-body-stat" data-counter="counterup" data-value="@ViewBag.TotalStorageTank" style="color:white;text-align:center">@ViewBag.TotalStorageTank</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- END WIDGET THUMB -->
+                                    </div>
+                                    <div class="col-md-4 col-sm-12">
+                                        <!-- BEGIN WIDGET THUMB -->
+                                        <div class="widget-thumb widget-bg-color-white text-uppercase margin-bottom-20 " style="background-color:transparent; border-radius:10px !important;  height: 100px; padding: 0px !important; ">
+                                            <div class="col-md-3 col-sm-3 col-xs-3" style="background:linear-gradient(to right, #8ac340 0%, #31ab46 100%); height:100px; line-height:100px;border-right:2px solid green;border-radius: 10px 0px 0px 10px !important;text-align: center; opacity:0.8; ">
+                                                <img src="~/Assets/img/2959838-128.png" style="width:50px;" />
+                                            </div>
+                                            <div class="col-md-9 col-sm-9 col-xs-9" style="text-align: center; padding-top: 20px;height: 100px;line-height: 40px;background-color:#6d5da4;border-radius: 0px 10px 10px 0px !important; opacity:0.8;">
+                                                <h4 class="widget-thumb-heading" style="color:white;  text-align:center; margin:0 0 5px;">Running Filtration Plants</h4>
+                                                <hr style="border-top:3px solid white; margin: 10px 4px 4px 4px;" />
+                                                <div class="widget-thumb-wrap">
+                                                    <div class="widget-thumb-body">
+                                                        <div class="widget-thumb-wrap">
+                                                            <div class="widget-thumb-body">
+                                                                <span class="widget-thumb-body-stat" data-counter="counterup" data-value="@ViewBag.ActiveStorageTank" style="color:white;text-align:center">@ViewBag.ActiveStorageTank</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <!-- END WIDGET THUMB -->
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 col-sm-12">
+                                        <!-- BEGIN WIDGET THUMB -->
+                                        <div class="widget-thumb widget-bg-color-white text-uppercase margin-bottom-20 " style="background-color:transparent; border-radius:10px !important;  height: 100px; padding: 0px !important; ">
+                                            <div class="col-md-3 col-sm-3 col-xs-3" style="background:linear-gradient(to right, #8ac340 0%, #31ab46 100%); height:100px; line-height:100px;border-right:2px solid green;border-radius: 10px 0px 0px 10px !important;text-align: center; opacity:0.8; ">
+                                                <img src="~/Assets/img/PondingOff.png" style="width:50px;" />
+                                            </div>
+                                            <div class="col-md-9 col-sm-9 col-xs-9" style="text-align: center; padding-top: 20px;height: 100px;line-height: 40px;background-color:#f7941c;border-radius: 0px 10px 10px 0px !important; opacity:0.8;">
+                                                <h4 class="widget-thumb-heading" style="color:white;  text-align:center; margin:0 0 5px;">Inactive Filtration Plants</h4>
+                                                <hr style="border-top:3px solid white; margin: 10px 4px 4px 4px;" />
+                                                <div class="widget-thumb-wrap">
+                                                    <div class="widget-thumb-body">
+                                                        <div class="widget-thumb-wrap">
+                                                            <div class="widget-thumb-body">
+                                                                <span class="widget-thumb-body-stat" data-counter="counterup" data-value="@ViewBag.InactiveStorageTank" style="color:white;text-align:center">@ViewBag.InactiveStorageTank</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <!-- END WIDGET THUMB -->
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-12 col-xs-12 col-sm-12">
+                                    <div class="portlet light " style="background-color:transparent;">
+                                        <div class="portlet-title" style="border-width:0px;margin-bottom:0px;min-height:20px;">
+                                            <div class="caption">
+                                                <span class="caption-subject bold uppercase font-dark" style="color:white !important;">Filtration Plants Dashboard</span>
+                                            </div>
+                                        </div>
+                                        <div class="portlet-body">
+                                            <div class="row">
+                                                <div class="panel panel-info" style="margin-bottom:5px;">
+                                                    <div class="panel-heading">
+                                                        <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                                                            <div class="portlet-title">
+                                                                <div class="caption font-dark">
+                                                                    <i class="font-dark"><img src="~/Assets/img/graph1.png" style="width:28px;vertical-align:baseline; margin-right:5px;" /></i>
+                                                                    <span class="caption-subject bold uppercase" style="vertical-align:bottom;">Pattoki Filtration Plant</span>
+                                                                </div>
+                                                            </div>
+                                                        </button>
+                                                    </div>
+                                                    <div id="collapseOne" class="" aria-labelledby="headingOne" data-parent="#accordion">
+                                                        <div class="card-body">
+                                                            <center>
+                                                                <div id="chartContainer2" style="width: 95%; height: 300px"></div>
+                                                            </center>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- Marker Map -->
+                                            <div class="row">
+                                                <div class="panel panel-warning" style="margin-bottom:5px;">
+                                                    <div class="panel-heading">
+                                                        <button class="btn btn-link" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                                            <div class="portlet-title">
+                                                                <div class="caption font-dark">
+                                                                    <i class="font-dark"><img src="~/Assets/img/location1.png" style="width:28px;vertical-align:baseline; margin-right:5px;" /></i>
+                                                                    <span class="caption-subject bold uppercase" style="vertical-align:bottom;">Live Location of Filtration Plants</span>
+                                                                </div>
+                                                            </div>
+                                                        </button>
+                                                    </div>
+                                                    <div id="collapseTwo" class="" aria-labelledby="headingTwo" data-parent="#accordion">
+                                                        <div class="card-body">
+                                                            <div class="col-md-12" style="padding: 0px 0px 0px 0px !important;">
+                                                                <!-- BEGIN EXAMPLE TABLE PORTLET-->
+                                                                <div class="portlet light bordered">
+                                                                    <div class="portlet-body">
+                                                                        <div id="ponding_map" class="gmaps"> </div>
+                                                                    </div>
+                                                                </div>
+                                                                <!-- END EXAMPLE TABLE PORTLET-->
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- DataTable Row -->
+                                            <div class="row">
+                                                <div class="panel panel-success" style="margin-bottom:5px;">
+                                                    <div class="panel-heading">
+                                                        <button class="btn btn-link" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                                            <div class="portlet-title">
+                                                                <div class="caption font-dark">
+                                                                    <i class="font-dark"><img src="~/Assets/img/report1.png" style="width:28px;vertical-align:baseline; margin-right:5px;" /></i>
+                                                                    <span class="caption-subject bold uppercase" style="vertical-align:bottom;">Filtration Plants Real Time Data</span>
+                                                                </div>
+                                                            </div>
+                                                        </button>
+                                                    </div>
+                                                    <div id="collapseThree" class="" aria-labelledby="headingThree" data-parent="#accordion">
+                                                        <div class="card-body">
+                                                            <table class="table table-striped table-bordered table-hover" id="datatable1" style="text-align:center">
+                                                                <thead style="font-weight:bold">
+                                                                    <tr style="background-color: #a8c9cd;">
+                                                                        <th>Pump No. 1</th>
+                                                                        <th>Pump No. 2</th>
+                                                                        <th>Voltage</th>
+                                                                        <th>Current</th>
+                                                                        <th>Power Factor</th>
+                                                                        <th>Frequency</th>
+                                                                        <th>Power (KVA)</th>
+                                                                        <th>Power (KVAR)</th>
+                                                                        <th>Power (KW)</th>
+                                                                        <th>Water Flow</th>
+                                                                        <th>Chlorine Level</th>
+                                                                        <th>Tank No. 1</th>
+                                                                        <th>Tank No. 2</th>
+                                                                        <th>TDS</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <tr>
+                                                                        <td>@Model[0]</td>
+                                                                        <td>@Model[1]</td>
+                                                                        <td>@Model[2]</td>
+                                                                        <td>@Model[3]</td>
+                                                                        <td>@Model[4]</td>
+                                                                        <td>@Model[5]</td>
+                                                                        <td>@Model[6]</td>
+                                                                        <td>@Model[7]</td>
+                                                                        <td>@Model[8]</td>
+                                                                        <td>@Model[9]</td>
+                                                                        <td>@Model[10]</td>
+                                                                        <td>@Model[11]</td>
+                                                                        <td>@Model[12]</td>
+                                                                        <td>@Model[13]</td>
+                                                                    </tr>
+                                                                </tbody>
+
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- END EXAMPLE TABLE PORTLET-->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script src="https://cdn.amcharts.com/lib/4/core.js"></script>
+<script src="https://cdn.amcharts.com/lib/4/charts.js"></script>
+<script src="https://cdn.amcharts.com/lib/4/themes/animated.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAlT_-WIkJ_8eKmEGZZFOGzugRIHjviICI" async defer></script>
+<script type="text/javascript">
+    window.onload = function () {
+        var chart1 = am4core.create("chartContainer2", am4charts.XYChart3D);
+        chart1.angle = 35;
+        chart1.data = @Html.Raw(ViewData["amChartData1"]);
+        console.log(chart1.data);
+        chart1.paddingTop = 50;
+        var title = chart1.titles.create();
+        title.text = "All Parameters Recent Data";
+        title.fontSize = 25;
+        title.marginBottom = 10;
+        // Create axes
+        var categoryAxis1 = chart1.xAxes.push(new am4charts.CategoryAxis());
+        categoryAxis1.dataFields.category = "category";
+        //categoryAxis1.renderer.grid.template.location = 0;
+        categoryAxis1.renderer.minGridDistance = 30;
+        //categoryAxis1.renderer.labels.template.rotation = -90;
+        categoryAxis1.renderer.inside = true;
+        categoryAxis1.renderer.labels.template.valign = "top";
+        categoryAxis1.tooltip.disabled = true;
+        categoryAxis1.renderer.grid.template.strokeWidth = 0;
+        categoryAxis1.renderer.labels.template.fontSize = 0;
+        var valueAxis1 = chart1.yAxes.push(new am4charts.ValueAxis());
+        valueAxis1.renderer.grid.template.strokeWidth = 0;
+        valueAxis1.min = 0;
+        valueAxis1.extraMax = 0.05;
+        //valueAxis.labelsEnabled = false;
+        //valueAxis.renderer.labels.template.disabled = true;
+        // Create series
+        var series1 = chart1.series.push(new am4charts.ConeSeries());
+        series1.sequencedInterpolation = true;
+        series1.dataFields.valueY = "value";
+        series1.dataFields.tooltipText = "value";
+        series1.dataFields.categoryX = "category";
+        series1.columns.template.strokeWidth = 0;
+
+        series1.columns.template.tooltipText = "{categoryX}: {tooltipText}";
+        series1.columns.template.tooltipY = 0;
+        series1.tooltip.pointerOrientation = "vertical";
+
+        series1.columns.template.adapter.add("fill", function (fill, target) {
+            return chart1.colors.getIndex(target.dataItem.index);
+        })
+
+        var legend1 = new am4charts.Legend();
+        legend1.parent = chart1.chartContainer;
+        //legend1.itemContainers.template.togglable = false;
+        legend1.marginTop = 20;
+        legend1.fontSize = 10;
+        //legend1.labels.template.rotation = -45;
+
+        series1.events.on("ready", function (ev) {
+            var legenddata = [];
+            series1.columns.each(function (column) {
+                legenddata.push({
+                    name: column.dataItem.categoryX,
+                    fill: column.fill,
+                    columnDataItem: column.dataItem
+                });
+            });
+            legend1.data = legenddata;
+        });
+
+        legend1.itemContainers.template.events.on("hit", function (ev) {
+            //console.log("Clicked on ", ev.target.dataItem.className);
+            if (!ev.target.isActive) {
+                ev.target.dataItem.dataContext.columnDataItem.hide();
+            }
+            else {
+                ev.target.dataItem.dataContext.columnDataItem.show();
+            }
+        });
+
+        legend1.itemContainers.template.events.on("over", function (ev) {
+            ev.target.dataItem.dataContext.columnDataItem.column.isHover = true;
+            ev.target.dataItem.dataContext.columnDataItem.column.showTooltip();
+        });
+
+        legend1.itemContainers.template.events.on("out", function (ev) {
+            ev.target.dataItem.dataContext.columnDataItem.column.isHover = false;
+            ev.target.dataItem.dataContext.columnDataItem.column.hideTooltip();
+        });
+
+
+
+
+        //alert('on load');
+        LoadGoogleMap();
+        var refreshId = setInterval(function () {
+            document.getElementById("ponding_map").innerHTML = "";
+            var properID = LoadGoogleMap();
+            if (properID > 0) {
+                clearInterval(refreshId);
+            }
+        }, 100000);
+    }
+    function LoadGoogleMap() {
+        var markers = GetMapData();
+        var mapOptions = {
+            center: new google.maps.LatLng(31.395095, 74.362954),
+            zoom: 11,
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        };
+        var infoWindow = new google.maps.InfoWindow();
+        var map = new google.maps.Map(document.getElementById("ponding_map"), mapOptions);
+
+        for (i = 0; i < markers.length; i++) {
+            var data = markers[i]
+            // alert(data)
+            var myLatlng = new google.maps.LatLng(data.lat, data.lnt);
+            var Status = data.Status;
+            var Letter = data.Template;
+            var delt = data.DelTime;
+            var iconcolor = "";
+            if (Status == "False" || delt > 20) {
+                //                      iconcolor = new google.maps.MarkerImage(
+                //  'http://www.gettyicons.com/free-icons/108/gis-gps/png/24/needle_left_yellow_2_24.png',
+                console.log(delt);
+                iconcolor = "http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=";
+                iconcolor = iconcolor + "";
+                iconcolor = iconcolor + " |FF0000|000000";
+            }
+            else {
+                iconcolor = "http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=";
+                iconcolor = iconcolor + "";
+                iconcolor = iconcolor + " |00FF00|000000";
+            }
+            var marker = new google.maps.Marker({
+                position: myLatlng,
+                map: map,
+                title: data.title,
+                label: { text: Letter, color: "#000", fontWeight: "bold", fontsize: "8px", labelOrigin: new google.maps.Point(0, 0) },
+                icon: { url: iconcolor, origin: { x: 0, y: 0 } }
+            });
+            (function (marker, data) {
+                google.maps.event.addListener(marker, "click", function (e) {
+                    infoWindow.setContent("<center>" + data.description + "</center>");
+                    infoWindow.open(map, marker);
+                });
+            })(marker, data);
+
+        }
+    }
+
+    function GetMapData() {
+
+        var markers = '';
+        $.ajax({
+            type: "POST",
+            url: "../saveData.asmx/getFiltrationPlantMarkers",
+            data: "{}",
+
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+
+            async: false,
+            success: function (resp) {
+                markers = eval(resp.d);
+
+
+            },
+            error: function () { debugger; }
+        });
+        return markers;
+    }
+</script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        var table = $('#datatable1').DataTable({
+            searching: false, paging: false, info: false
+        });
+    });
+</script>

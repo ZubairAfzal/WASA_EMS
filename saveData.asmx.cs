@@ -49,6 +49,137 @@ namespace WASA_EMS
         }
 
         [WebMethod]
+        public string getFiltrationPlantMarkers()
+        {
+
+            string tempName = "";
+            string datetimed = "";
+            string markers = "[";
+            string parameterValuesString = "";
+            string q1 = "";
+            q1 += "select top(28)  r.ResourceLocation,  t.TemplateName, p.ParameterName, e.ParameterValue, e.InsertionDateTime  from tblEnergy e ";
+            q1 += "left join tblParameter p on e.parameterID = p.parameterID ";
+            q1 += "left join tblResource r on e.resourceID = r.resourceID ";
+            q1 += "left join tblTemplate t on r.TemplateID = t.TemplateID ";
+            q1 += "where e.InsertionDateTime = (select max(InsertionDateTime) from tblEnergy where ResourceID = 1080) ";
+            q1 += "and r.resourceID = 1080 order by p.paramOrder";
+            using (SqlConnection conn = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString))
+            {
+                try
+                {
+                    SqlCommand cmd = new SqlCommand(q1, conn);
+                    conn.Open();
+                    using (SqlDataReader sdr1 = cmd.ExecuteReader())
+                    {
+                        while (sdr1.Read())
+                        {
+                            string valuee = "";
+                            parameterValuesString += "";
+                            if (sdr1["parameterName"].ToString() == "Pump No. 1")
+                            {
+                                parameterValuesString += "Pump No. 1 " + ": ";
+                                if (sdr1["parameterValue"].ToString() == "0")
+                                {
+                                    valuee = "OFF";
+                                }
+                                else
+                                {
+                                    valuee = "ON";
+                                }
+                            }
+                            else if (sdr1["parameterName"].ToString() == "Pump No. 2")
+                            {
+                                parameterValuesString += "Pump No. 2 " + ": ";
+                                if (sdr1["parameterValue"].ToString() == "0")
+                                {
+                                    valuee = "OFF";
+                                }
+                                else
+                                {
+                                    valuee = "ON";
+                                }
+                            }
+                            else if (sdr1["parameterName"].ToString() == "Chlorine Level")
+                            {
+                                parameterValuesString += "Chlorine Level " + ": ";
+                                if (sdr1["parameterValue"].ToString() == "0")
+                                {
+                                    valuee = "LOW";
+                                }
+                                else
+                                {
+                                    valuee = "HIGH";
+                                }
+                            }
+                            else if (sdr1["ParameterName"].ToString() == "Tank No. 1")
+                            {
+                                parameterValuesString += "Tank No. 1" + ": ";
+                                valuee = Math.Round(Convert.ToDouble(sdr1["parameterValue"]), 1).ToString() + " ft";
+                            }
+                            else if (sdr1["ParameterName"].ToString() == "Tank No. 2")
+                            {
+                                parameterValuesString += "Tank No. 1" + ": ";
+                                valuee = Math.Round(Convert.ToDouble(sdr1["parameterValue"]), 1).ToString() + " ft";
+                            }
+                            else if (sdr1["ParameterName"].ToString() == "Mode")
+                            {
+                                parameterValuesString += "Mode " + ": ";
+                                if (sdr1["parameterValue"].ToString() == "1")
+                                {
+                                    valuee = "Manual";
+                                }
+                                else
+                                {
+                                    valuee = "Auto";
+                                }
+                            }
+                            else
+                            {
+                                parameterValuesString += sdr1["ParameterName"].ToString() + ": ";
+                                valuee = Math.Round(Convert.ToDouble(sdr1["parameterValue"]), 2).ToString();
+                            }
+                            parameterValuesString += valuee;
+                            parameterValuesString += "<br />";
+                            datetimed = sdr1["InsertionDateTime"].ToString();
+                        }
+                    }
+                    tempName = "F";
+                    string newstring = "<b>Filtration Plant</b>";
+                    newstring += "<br />";
+                    newstring += "<b>Pattoki Filtration Plant</b>";
+                    newstring += "<br />";
+                    newstring += datetimed;
+                    newstring += "<br />";
+                    newstring += parameterValuesString;
+                    TimeSpan duration = (Convert.ToDateTime(TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTime.UtcNow, "Pakistan Standard Time").ToString()) - Convert.ToDateTime(datetimed.ToString()));
+                    double minu = Math.Abs(duration.TotalMinutes);
+                    parameterValuesString = "";
+                    markers += "{";
+                    markers += string.Format("'Template': '{0}',", tempName);
+                    markers += string.Format("'title': '{0}',", "Lawrence Road");
+                    markers += string.Format("'lat':'{0}',", "31.395095");
+                    markers += string.Format("'lnt':'{0}',", "74.362954");
+                    markers += string.Format("'Delta': '{0}',", minu.ToString());
+                    markers += string.Format("'description': '{0}'", newstring);
+                    markers += "},";
+                }
+                catch (Exception ex)
+                {
+
+                }
+                finally
+                {
+                    conn.Close();
+                }
+
+            }
+            markers = markers.Remove(markers.Length - 1, 1);
+            markers += "]";
+            var data = new { status = "Success" };
+            return markers;
+        }
+
+        [WebMethod]
         public string ShutDownPump(string sender, string v12, string v23, string v13, string i1, string i2, string i3)
         {
             string message = "";
