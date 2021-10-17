@@ -8,8 +8,6 @@
 <link href="~/Content/datatables.min.css" rel="stylesheet" type="text/css" />
 <link href="~/Content/buttons.dataTables.min.css" rel="stylesheet" type="text/css" />
 
-@*<script src="https://code.jquery.com/jquery-3.5.1.min.js" type="text/javascript"></script>*@
-
 <script src="~/Metronic/assets/global/scripts/jquery.dataTables.min.js"></script>
 
 
@@ -19,19 +17,16 @@
 @*<script src="~/Metronic/assets/global/scripts/pdfmake.min.js" type="text/javascript"></script>*@
 <script src="~/Metronic/assets/global/scripts/vfs_fonts.js" type="text/javascript"></script>
 <script src="~/Metronic/assets/global/scripts/jszip.min.js" type="text/javascript"></script>
-<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
 
 <script type="text/javascript">
     $(document).ready(function () {
-        @Html.Raw(ViewData["chartData"])
-        chart1.render();
         function toogleDataSeries(e) {
             if (typeof (e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
                 e.dataSeries.visible = false;
             } else {
                 e.dataSeries.visible = true;
             }
-            chart1.render();
+            //chart1.render();
         }
         if (!$.fn.DataTable.isDataTable('#tubeWellTable')) {
             var table = $('#tubeWellTable').DataTable({
@@ -56,7 +51,90 @@
                 ]
             });
         }
+
     });
+</script>
+
+<script type="text/javascript">
+     am4core.ready(function () {
+            am4core.useTheme(am4themes_animated);
+            var jsonObj = @Html.Raw(ViewData["amChartData"]);
+            var chart = am4core.create("chartContainer2", am4charts.XYChart);
+            chart.paddingLeft = 30;
+            let title = chart.titles.create();
+            title.text = "All Pumps Working Today";
+            title.fontSize = 25;
+            title.marginBottom = 10;
+            var dateAxis = chart.xAxes.push(new am4charts.DateAxis());
+            dateAxis.baseInterval = {
+                "timeUnit": "minute",
+                "count": 1
+            };
+            dateAxis.dateFormats.setKey('hour', 'hh:mm a');
+            dateAxis.tooltipDateFormat = " d-MM-yyyy hh:mm:ss a";
+            var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+            valueAxis.tooltip.disabled = true;
+            valueAxis.renderer.labels.template.disabled = true;
+            //valueAxis.min = -0.2;
+            //valueAxis.max = 1.2;
+
+            if (jsonObj.SpellDataArray.length === 0) { }
+            else
+            {
+                var series1 = chart.series.push(new am4charts.LineSeries());
+                var series2 = chart.series.push(new am4charts.LineSeries());
+                var data1 = [];
+                var data2 = [];
+                //console.log(jsonObj[j].locationName);
+                for (var i = 0; i < jsonObj.SpellTimeArray.length; i++) {
+                    var Thedate = jsonObj.SpellTimeArray[i];
+                    //alert(Thedate);
+                    var changeDate = moment(Thedate, 'DD/MM/YYYY HH:mm:ss A').format("MM/DD/YYYY HH:mm:ss");
+                    var dateObj = new Date((changeDate));
+                    var valuep1 = jsonObj.SpellDataArray[i];
+                    var valuep2 = jsonObj.SpellDataArray2[i];
+
+                    var location = "Pattoki Water Filtration Plant";
+
+                    if (jsonObj.SpellDataArray[i] == 0) {
+                        data1.push({ location1: location, paramameter: 'Pump No. 1 Status', date1: dateObj, value1: valuep1, status1: 'OFF' });
+                    }
+                    else {
+                        data1.push({ location1: location, paramameter: 'Pump No. 1 Status', date1: dateObj, value1: valuep1, status1: 'ON' });
+                    }
+
+                    if (jsonObj.SpellDataArray2[i] == 0) {
+                        data2.push({ location2: location, paramameter: 'Pump No. 2 Status', date2: dateObj, value2: valuep2, status2: 'OFF' });
+                    }
+                    else {
+                        data2.push({ location2: location, paramameter: 'Pump No. 2 Status', date2: dateObj, value2: valuep2, status2: 'ON' });
+                    }
+                }
+                series1.data = data1;
+                series1.dataFields.dateX = "date1";
+                series1.dataFields.valueY = "value1";
+                series1.dataFields.status1 = "status1";
+                series1.dataFields.location = "location1";
+                series1.tooltipText = " Pump No. 1 Status: [bold]{status1}[/] ";
+                series1.name = 'Pump No. 1';
+                series1.fillOpacity = 0.3;
+
+
+                series2.data = data2;
+                series2.dataFields.dateX = "date2";
+                series2.dataFields.valueY = "value2";
+                series2.dataFields.status2 = "status2";
+                series2.dataFields.location = "location2";
+                series2.tooltipText = " Pump No. 2 Status: [bold]{status2}[/] ";
+                series2.name = 'Pump No. 2';
+                series2.fillOpacity = 0.3;
+
+
+            }
+            chart.cursor = new am4charts.XYCursor();
+            chart.cursor.lineY.opacity = 0;
+            chart.legend = new am4charts.Legend();
+        });
 </script>
 
 <div class="portlet-title">
@@ -66,7 +144,7 @@
                 <div class="widget-content">
                     <div>
                         <center>
-                            <div id="chartContainer1" style="width: 95%; height: 500px"></div>
+                            <div id="chartContainer2" style="width: 95%; height: 500px"></div>
                         </center>
                     </div>
                 </div>
@@ -184,3 +262,17 @@
     </div>
 </div>
 
+
+@section scripts {
+    <section class="scripts">
+
+        <script type="text/javascript">
+            window.onload = function () {
+
+                am4core.ready(function () {
+
+                });
+            }
+        </script>
+    </section>
+}

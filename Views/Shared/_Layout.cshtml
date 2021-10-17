@@ -151,7 +151,7 @@ else
                             <a href="javascript:;" class="menu-toggler"></a>
                             <!-- END RESPONSIVE MENU TOGGLER -->
                             <!-- BEGIN TOP NAVIGATION MENU -->
-                            @if (Session["UserName"].ToString() != "administrator")
+                            @if (Session["UserName"].ToString() != "administrator" && Session["UserName"].ToString() != "Aab-e-Pak")
                             {
                                 <span style="position: absolute;right: 190px;top: 10px;font-size: 30px;cursor: pointer;width: 50px !important;text-align: center;">
                                     <button img="" onclick="openWatsapp()" style="background-color: transparent;border: 0px !important;margin-top: 0px !important;cursor: pointer;">
@@ -211,24 +211,6 @@ else
                                             </li>
                                         </ul>
                                     </li>
-                                    @*<li class="dropdown dropdown-user dropdown-dark">
-                                            <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
-                                                <span>@Session["UserName"].ToString()</span>
-                                            </a>
-                                            <ul class="dropdown-menu dropdown-menu-default">
-                                                <li>
-                                                    <a href="/Account/ChangePassword">
-                                                        <i class="icon-user"></i> Change Password
-                                                    </a>
-                                                </li>
-                                                <li class="divider"> </li>
-                                                <li>
-                                                    <a href="/Account/LogOff">
-                                                        <i class="icon-calendar"></i> Log Out
-                                                    </a>
-                                                </li>
-                                            </ul>
-                                        </li>*@
                                     <!-- END USER LOGIN DROPDOWN -->
                                     <!-- BEGIN QUICK SIDEBAR TOGGLER -->
                                     <!-- END QUICK SIDEBAR TOGGLER -->
@@ -248,176 +230,17 @@ else
                             <!-- DOC: Remove data-hover="dropdown" and data-close-others="true" attributes below to disable the dropdown opening on mouse hover -->
                             <div id="hor-menu" class="hor-menu  row" style="margin-top: -5.5%;    float: left;  padding-left: 60px">
                                 <ul class="nav navbar-nav">
-                                    @*<li aria-haspopup="true" class="dropdown dropdown-fw dropdown-fw-disabled ">
-                                        <a href="/Home/Welcome">
-                                            <i class="icon-home"></i> &nbsp; Home
-                                        </a>*@
-                                    @*<ul class="dropdown-menu pull-left">
-                                            <li aria-haspopup="true" class=" ">
-                                                <a href="/Home/Welcome" class="nav-link  ">
-                                                    <i class="icon-globe-alt"></i> Welcome
-                                                </a>
-                                            </li>
-                                            <li aria-haspopup="true" class=" ">
-                                                <a href="/Home/Index" class="nav-link  ">
-                                                    <i class="icon-bulb"></i> Dashboard
-                                                </a>
-                                            </li>
-                                        </ul>*@
-                                    @*</li>*@
-                                    <li aria-haspopup="true" class="menu-dropdown classic-menu-dropdown ">
-                                        <a href="/Home/Welcome">
-                                            <i class="icon-home"></i> &nbsp; Home
-                                        </a>
-                                        <ul class="dropdown-menu">
+                                    @if (Session["UserName"].ToString() == "Aab-e-Pak")
+                                    {
 
-
-                                            <li aria-haspopup="true" class="  ">
-                                                <a href="/Ponding/Dashboard">
-                                                    Ponding Dashboard
-                                                </a>
-                                            </li>
-                                            <li aria-haspopup="true" class="  ">
-                                                <a href="/Rain/Dashboard">
-                                                    Rain Gauge Dashboard
-                                                </a>
-                                            </li>
-                                            <li aria-haspopup="true" class="  ">
-                                                <a href="/StorageTank/Dashboard">
-                                                    Storm Water Dashboard
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                    <li aria-haspopup="true" class="menu-dropdown classic-menu-dropdown ">
-                                        <a href="javascript:;">
-                                            <i class="icon-hourglass"></i> &nbsp; Tubewells
-                                            <span class="arrow"></span>
-                                        </a>
-                                        <ul class="dropdown-menu">
-
-                                            @*<li aria-haspopup="true" class="  ">
-                                                    <a href="/Tubewells/Dashboard">
-                                                        Dashboard
-                                                    </a>
-                                                </li>*@
-                                            <li aria-haspopup="true" class="  ">
-                                                <a href="/Tubewells/HMI">
-                                                    HMI
-                                                </a>
-                                            </li>
-                                            <li aria-haspopup="true" class="dropdown-submenu ">
-                                                <a href="javascript:;" class="nav-link nav-toggle ">
-                                                    <i class="icon-briefcase"></i> &nbsp;  Reports
-                                                    <span class="arrow"></span>
-                                                </a>
-                                                <ul class="dropdown-menu">
-                                                    <li>
-                                                        <a href="/TubeWells/StatusReport"> Status Report </a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="/TubeWells/ParameterWiseReport"> Parameter Wise Report </a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="/TubeWells/EnergyMonitoringReport"> Energy Monitoring Report </a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="/TubeWells/WaterDischargeReport"> Water Discharge Report </a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="/TubeWells/RemoteStatusReport"> Mode Status Report </a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="/TubeWells/VibrationAnalysisReport"> Vibration Report </a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="/TubeWells/ParameterizedData"> Parameterized Chart </a>
-                                                    </li>
-                                                </ul>
-                                            </li>
-                                            @if (Session["UserName"].ToString() != "wasalhr")
-                                            {
-                                                <li aria-haspopup="true" class="  ">
-                                                    <a href="/Home/Schedule">
-                                                        Tubewell Schedule
-                                                    </a>
-                                                </li>
-                                            }
-                                        </ul>
-                                    </li>
-                                    <li aria-haspopup="true" class="menu-dropdown classic-menu-dropdown ">
-                                        <a href="javascript:;">
-                                            <i class="icon-drawer"></i> &nbsp; Disposals/Lift Stations
-                                            <span class="arrow"></span>
-                                        </a>
-                                        <ul class="dropdown-menu">
-
-                                            @*<li aria-haspopup="true" class="  ">
-                                                    <a href="/Disposals/Dashboard">
-                                                        Dashboard
-                                                    </a>
-                                                </li>*@
-                                            <li aria-haspopup="true" class="  ">
-                                                <a href="/Disposals/HMI">
-                                                    HMI
-                                                </a>
-                                            </li>
-                                            <li aria-haspopup="true" class="dropdown-submenu ">
-                                                <a href="javascript:;" class="nav-link nav-toggle ">
-                                                    <i class="icon-briefcase"></i> &nbsp; Reports
-                                                    <span class="arrow"></span>
-                                                </a>
-                                                <ul class="dropdown-menu">
-                                                    <li>
-                                                        <a href="/Disposals/StatusReport"> Status Report </a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="/Disposals/PumpsReport"> Pumps Report </a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="/Disposals/WellReport"> Wells Report </a>
-                                                    </li>
-                                                </ul>
-                                            </li>
-                                            <li aria-haspopup="true" class="  ">
-                                                <a id="myLink" title="WhatsApp Disposal Data" href="#" onclick="disposalWatsapp();return false;">
-                                                    WhatsApp Disposal Data
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </li>
-
-                                    <li aria-haspopup="true" class="menu-dropdown classic-menu-dropdown ">
-                                        <a href="javascript:;">
-                                            <i class="icon-star"></i> &nbsp; Recycling Plants
-                                        </a>
-                                        <ul class="dropdown-menu">
-                                            <li aria-haspopup="true" class="dropdown-submenu ">
-                                                <a href="javascript:;" class="nav-link nav-toggle ">
-                                                    <i class="icon-briefcase"></i> &nbsp; Reports
-                                                    <span class="arrow"></span>
-                                                </a>
-                                                <ul class="dropdown-menu">
-                                                    <li>
-                                                        <a href="/RecyclingPlant/StatusReport"> Status Report </a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="/RecyclingPlant/PumpReport"> Pumps Report </a>
-                                                    </li>
-                                                </ul>
-                                            </li>
-                                        </ul>
-                                    </li>
-
-                                    @*<li aria-haspopup="true" class="menu-dropdown classic-menu-dropdown ">
+                                        <li aria-haspopup="true" class="menu-dropdown classic-menu-dropdown ">
                                             <a href="javascript:;">
-                                                <i class="icon-badge"></i> &nbsp; Ponding
+                                                <i class="icon-hourglass"></i> &nbsp; Filtration Plants
                                                 <span class="arrow"></span>
                                             </a>
                                             <ul class="dropdown-menu">
-
                                                 <li aria-haspopup="true" class="  ">
-                                                    <a href="/Ponding/Dashboard">
+                                                    <a href="/FiltrationPlants/Dashboard">
                                                         Dashboard
                                                     </a>
                                                 </li>
@@ -428,29 +251,59 @@ else
                                                     </a>
                                                     <ul class="dropdown-menu">
                                                         <li>
-                                                            <a href="/Ponding/PondingReport"> Ponding Report </a>
+                                                            <a href="/FiltrationPlants/StatusReport"> Status Report </a>
                                                         </li>
                                                         <li>
-                                                            <a href="/Ponding/TimeClearanceReport"> Time Clearance Report </a>
+                                                            <a href="/FiltrationPlants/EnergyMonitoringReport"> Energy Monitoring Report </a>
                                                         </li>
                                                         <li>
-                                                            <a href="/Ponding/FlowRateReport"> Flow Rate Report </a>
+                                                            <a href="/FiltrationPlants/WaterDischargeReport"> Water Discharge Report </a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="/FiltrationPlants/ParameterizedData"> Parameterized Chart </a>
                                                         </li>
                                                     </ul>
                                                 </li>
                                             </ul>
                                         </li>
 
+                                    }
+                                    else
+                                    {
+
+                                        <li aria-haspopup="true" class="menu-dropdown classic-menu-dropdown ">
+                                            <a href="/Home/Welcome">
+                                                <i class="icon-home"></i> &nbsp; Home
+                                            </a>
+                                            @*<ul class="dropdown-menu">
+
+
+                                                <li aria-haspopup="true" class="  ">
+                                                    <a href="/Ponding/Dashboard">
+                                                        Ponding Dashboard
+                                                    </a>
+                                                </li>
+                                                <li aria-haspopup="true" class="  ">
+                                                    <a href="/Rain/Dashboard">
+                                                        Rain Gauge Dashboard
+                                                    </a>
+                                                </li>
+                                                <li aria-haspopup="true" class="  ">
+                                                    <a href="/StorageTank/Dashboard">
+                                                        Storm Water Dashboard
+                                                    </a>
+                                                </li>
+                                            </ul>*@
+                                        </li>
                                         <li aria-haspopup="true" class="menu-dropdown classic-menu-dropdown ">
                                             <a href="javascript:;">
-                                                <i class="icon-badge"></i> &nbsp; Rain Gauges
+                                                <i class="icon-hourglass"></i> &nbsp; Tubewells
                                                 <span class="arrow"></span>
                                             </a>
                                             <ul class="dropdown-menu">
-
                                                 <li aria-haspopup="true" class="  ">
-                                                    <a href="/Rain/Dashboard">
-                                                        Dashboard
+                                                    <a href="/Tubewells/HMI">
+                                                        HMI
                                                     </a>
                                                 </li>
                                                 <li aria-haspopup="true" class="dropdown-submenu ">
@@ -460,15 +313,103 @@ else
                                                     </a>
                                                     <ul class="dropdown-menu">
                                                         <li>
-                                                            <a href="/Rain/IntensityReport"> Intensity Report </a>
+                                                            <a href="/TubeWells/StatusReport"> Status Report </a>
                                                         </li>
                                                         <li>
-                                                            <a href="/Rain/SpellReport"> Spell Report </a>
+                                                            <a href="/TubeWells/ParameterWiseReport"> Parameter Wise Report </a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="/TubeWells/EnergyMonitoringReport"> Energy Monitoring Report </a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="/TubeWells/WaterDischargeReport"> Water Discharge Report </a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="/TubeWells/RemoteStatusReport"> Mode Status Report </a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="/TubeWells/VibrationAnalysisReport"> Vibration Report </a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="/TubeWells/ParameterizedData"> Parameterized Chart </a>
+                                                        </li>
+                                                    </ul>
+                                                </li>
+                                                @if (Session["UserName"].ToString() != "wasalhr")
+                                                {
+                                                    <li aria-haspopup="true" class="  ">
+                                                        <a href="/Home/Schedule">
+                                                            Tubewell Schedule
+                                                        </a>
+                                                    </li>
+                                                }
+                                            </ul>
+                                        </li>
+                                        <li aria-haspopup="true" class="menu-dropdown classic-menu-dropdown ">
+                                            <a href="javascript:;">
+                                                <i class="icon-drawer"></i> &nbsp; Disposals/Lift Stations
+                                                <span class="arrow"></span>
+                                            </a>
+                                            <ul class="dropdown-menu">
+
+                                                @*<li aria-haspopup="true" class="  ">
+                        <a href="/Disposals/Dashboard">
+                            Dashboard
+                        </a>
+                    </li>*@
+                                                <li aria-haspopup="true" class="  ">
+                                                    <a href="/Disposals/HMI">
+                                                        HMI
+                                                    </a>
+                                                </li>
+                                                <li aria-haspopup="true" class="dropdown-submenu ">
+                                                    <a href="javascript:;" class="nav-link nav-toggle ">
+                                                        <i class="icon-briefcase"></i> &nbsp; Reports
+                                                        <span class="arrow"></span>
+                                                    </a>
+                                                    <ul class="dropdown-menu">
+                                                        <li>
+                                                            <a href="/Disposals/StatusReport"> Status Report </a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="/Disposals/PumpsReport"> Pumps Report </a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="/Disposals/WellReport"> Wells Report </a>
+                                                        </li>
+                                                    </ul>
+                                                </li>
+                                                <li aria-haspopup="true" class="  ">
+                                                    <a id="myLink" title="WhatsApp Disposal Data" href="#" onclick="disposalWatsapp();return false;">
+                                                        WhatsApp Disposal Data
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </li>
+
+                                        <li aria-haspopup="true" class="menu-dropdown classic-menu-dropdown ">
+                                            <a href="javascript:;">
+                                                <i class="icon-star"></i> &nbsp; Recycling Plants
+                                            </a>
+                                            <ul class="dropdown-menu">
+                                                <li aria-haspopup="true" class="dropdown-submenu ">
+                                                    <a href="javascript:;" class="nav-link nav-toggle ">
+                                                        <i class="icon-briefcase"></i> &nbsp; Reports
+                                                        <span class="arrow"></span>
+                                                    </a>
+                                                    <ul class="dropdown-menu">
+                                                        <li>
+                                                            <a href="/RecyclingPlant/StatusReport"> Status Report </a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="/RecyclingPlant/PumpReport"> Pumps Report </a>
                                                         </li>
                                                     </ul>
                                                 </li>
                                             </ul>
-                                        </li>*@
+                                        </li>
+                                    }
+
 
                                     @if (Session["UserName"].ToString() == "administrator")
                                     {
@@ -516,7 +457,7 @@ else
                                             </ul>
                                         </li>
                                     }
-                                    @if (Session["UserName"].ToString() != "wasalhr")
+                                    @if (Session["UserName"].ToString() != "wasalhr" && Session["UserName"].ToString() != "Aab-e-Pak")
                                     {
                                         <li aria-haspopup="true" class="menu-dropdown classic-menu-dropdown ">
                                             <a href="javascript:;">
@@ -555,10 +496,10 @@ else
                                         </ul>
                                     </li>
                                     @*<li class="dropdown dropdown-fw dropdown-fw-disabled">
-                                            <a href="javascript:;" class="text-uppercase">
-                                                <i class="icon-layers"></i> &nbsp;  Messages
-                                            </a>
-                                        </li>*@
+            <a href="javascript:;" class="text-uppercase">
+                <i class="icon-layers"></i> &nbsp;  Messages
+            </a>
+        </li>*@
                                 </ul>
                             </div>
                             <!-- END MEGA MENU -->
@@ -1350,317 +1291,317 @@ else
 
                 return {
 
-                    initAmChart1: function () {
-                        if ("undefined" != typeof AmCharts) {
+                    //initAmChart1: function () {
+                    //    if ("undefined" != typeof AmCharts) {
 
 
-                            var disposalChartData;
-                            var eArray = [];
-                            var pondingArr = [];
-                            $.getJSON('/Ponding/LoadPondingChartData/', function (data) {
-                                //alert(data);
-                                //console.log(data);
-                                var parsedObj = $.parseJSON(data);
-                                //console.log(data);
-                                $.each(parsedObj, function (key, obj) {
-                                    var colr = "";
-                                    var thePonding = 0;
-                                    if (obj.DeltaMinutes > -520) {
-                                        colr = "#08a3cc";
-                                        thePonding = 0;
-                                    }
-                                    else {
-                                        var maxThreshold = data.maxThrs;
-                                        if (maxThreshold == "") {
-                                            maxThreshold = 10;
-                                        }
-                                        thePonding = Math.round((obj.ponding / 2.54), 1);
-                                        if (thePonding < maxThreshold) {
-                                            colr = "#00ff00";
-                                        }
-                                        else {
-                                            colr = "#ff0000";
-                                        }
-                                    }
-                                    var eObj = {
-                                        category: obj.category,
-                                        ponding: thePonding,
-                                        townName: obj.townName,
-                                        townName2: obj.townName2,
-                                        collr: colr
-                                    };
-                                    eArray.push(eObj);
-                                    pondingArr.push(obj.ponding);
-                                });
-                                var e = eArray;
-                                AmCharts.makeChart("dashboard_amchart_1", {
-                                    type: "serial",
-                                    fontSize: 12,
-                                    fontFamily: "Open Sans",
-                                    dataDateFormat: "YYYY-MM-DD JJ:NN:SS",
-                                    dataProvider: e,
-                                    addClassNames: !0,
-                                    startDuration: 1,
-                                    color: "#6c7b88",
-                                    marginLeft: 0,
-                                    categoryField: "category",
-                                    categoryAxis: {
-                                        equalSpacing: false,
-                                        labelRotation: 60,
-                                        autoGridCount: !1,
-                                        gridCount: 50,
-                                        gridAlpha: .1,
-                                        gridColor: "#FFFFFF",
-                                        axisColor: "#555555",
-                                    },
-                                    valueAxes: [{
-                                        id: "a1",
-                                        title: "Water Level at Each Ponding Location",
-                                        gridAlpha: 0,
-                                        axisAlpha: 0
-                                    },],
-                                    graphs: [{
-                                        id: "g1",
-                                        valueField: "ponding",
-                                        title: "Water Level",
-                                        type: "column",
-                                        "topRadius": 1,
-                                        fillAlphas: .7,
-                                        valueAxis: "a1",
-                                        balloonText: "[[value]] inch",
-                                        //legendValueText: "[[value]] inch",
-                                        legendValueText: "[[category]] : [[value]] inch Ponding",
-                                        //legendPeriodValueText: "Average: [[value.average]] inch",
-                                        lineColor: "collr",
-                                        alphaField: "alpha",
-                                        colorField: "collr",
-                                        fillColors: "collr"
-                                    },
-                                    ],
-                                    "depth3D": 40,
-                                    "angle": 30,
-                                    "chartCursor": {
-                                        "categoryBalloonEnabled": false,
-                                        "cursorAlpha": 0,
-                                        "zoomable": false
-                                    },
-                                    chartCursor: {
-                                        zoomable: !1,
-                                        categoryBalloonDateFormat: "YYYY-MM-DD JJ:NN:SS",
-                                        cursorAlpha: 0,
-                                        categoryBalloonColor: "#e26a6a",
-                                        categoryBalloonAlpha: .8,
-                                        valueBalloonsEnabled: !1
-                                    },
-                                    legend: {
-                                        bulletType: "round",
-                                        equalWidths: !1,
-                                        valueWidth: 120,
-                                        useGraphSettings: !0,
-                                        color: "#6c7b88"
-                                    }
-                                })
-                            });
+                    //        var disposalChartData;
+                    //        var eArray = [];
+                    //        var pondingArr = [];
+                    //        $.getJSON('/Ponding/LoadPondingChartData/', function (data) {
+                    //            //alert(data);
+                    //            //console.log(data);
+                    //            var parsedObj = $.parseJSON(data);
+                    //            //console.log(data);
+                    //            $.each(parsedObj, function (key, obj) {
+                    //                var colr = "";
+                    //                var thePonding = 0;
+                    //                if (obj.DeltaMinutes > -520) {
+                    //                    colr = "#08a3cc";
+                    //                    thePonding = 0;
+                    //                }
+                    //                else {
+                    //                    var maxThreshold = data.maxThrs;
+                    //                    if (maxThreshold == "") {
+                    //                        maxThreshold = 10;
+                    //                    }
+                    //                    thePonding = Math.round((obj.ponding / 2.54), 1);
+                    //                    if (thePonding < maxThreshold) {
+                    //                        colr = "#00ff00";
+                    //                    }
+                    //                    else {
+                    //                        colr = "#ff0000";
+                    //                    }
+                    //                }
+                    //                var eObj = {
+                    //                    category: obj.category,
+                    //                    ponding: thePonding,
+                    //                    townName: obj.townName,
+                    //                    townName2: obj.townName2,
+                    //                    collr: colr
+                    //                };
+                    //                eArray.push(eObj);
+                    //                pondingArr.push(obj.ponding);
+                    //            });
+                    //            var e = eArray;
+                    //            AmCharts.makeChart("dashboard_amchart_1", {
+                    //                type: "serial",
+                    //                fontSize: 12,
+                    //                fontFamily: "Open Sans",
+                    //                dataDateFormat: "YYYY-MM-DD JJ:NN:SS",
+                    //                dataProvider: e,
+                    //                addClassNames: !0,
+                    //                startDuration: 1,
+                    //                color: "#6c7b88",
+                    //                marginLeft: 0,
+                    //                categoryField: "category",
+                    //                categoryAxis: {
+                    //                    equalSpacing: false,
+                    //                    labelRotation: 60,
+                    //                    autoGridCount: !1,
+                    //                    gridCount: 50,
+                    //                    gridAlpha: .1,
+                    //                    gridColor: "#FFFFFF",
+                    //                    axisColor: "#555555",
+                    //                },
+                    //                valueAxes: [{
+                    //                    id: "a1",
+                    //                    title: "Water Level at Each Ponding Location",
+                    //                    gridAlpha: 0,
+                    //                    axisAlpha: 0
+                    //                },],
+                    //                graphs: [{
+                    //                    id: "g1",
+                    //                    valueField: "ponding",
+                    //                    title: "Water Level",
+                    //                    type: "column",
+                    //                    "topRadius": 1,
+                    //                    fillAlphas: .7,
+                    //                    valueAxis: "a1",
+                    //                    balloonText: "[[value]] inch",
+                    //                    //legendValueText: "[[value]] inch",
+                    //                    legendValueText: "[[category]] : [[value]] inch Ponding",
+                    //                    //legendPeriodValueText: "Average: [[value.average]] inch",
+                    //                    lineColor: "collr",
+                    //                    alphaField: "alpha",
+                    //                    colorField: "collr",
+                    //                    fillColors: "collr"
+                    //                },
+                    //                ],
+                    //                "depth3D": 40,
+                    //                "angle": 30,
+                    //                "chartCursor": {
+                    //                    "categoryBalloonEnabled": false,
+                    //                    "cursorAlpha": 0,
+                    //                    "zoomable": false
+                    //                },
+                    //                chartCursor: {
+                    //                    zoomable: !1,
+                    //                    categoryBalloonDateFormat: "YYYY-MM-DD JJ:NN:SS",
+                    //                    cursorAlpha: 0,
+                    //                    categoryBalloonColor: "#e26a6a",
+                    //                    categoryBalloonAlpha: .8,
+                    //                    valueBalloonsEnabled: !1
+                    //                },
+                    //                legend: {
+                    //                    bulletType: "round",
+                    //                    equalWidths: !1,
+                    //                    valueWidth: 120,
+                    //                    useGraphSettings: !0,
+                    //                    color: "#6c7b88"
+                    //                }
+                    //            })
+                    //        });
 
-                        }
-                    },
+                    //    }
+                    //},
 
-                    initAmChart2: function () {
-                        if ("undefined" != typeof AmCharts) {
-
-
-                            var disposalChartData;
-                            var eArray = [];
-                            var pondingArr = [];
-                            $.getJSON('/Rain/LoadRainChartData/', function (data) {
-                                var parsedObj = $.parseJSON(data);
-                                //alert(data);
-                                $.each(parsedObj, function (key, obj) {
-                                    var colr = "";
-                                    if (obj.ponding < 3) {
-                                        colr = "#08a3cc";
-                                    }
-                                    else {
-                                        colr = "#ff0000";
-                                    }
-                                    var eObj = {
-                                        category: obj.category,
-                                        ponding: obj.ponding,
-                                        townName: obj.townName,
-                                        townName2: obj.townName2,
-                                        collr: colr
-                                    };
-                                    eArray.push(eObj);
-                                    pondingArr.push(obj.ponding);
-                                });
-                                var e = eArray;
-                                AmCharts.makeChart("dashboard_amchart_2", {
-                                    type: "serial",
-                                    fontSize: 12,
-                                    fontFamily: "Open Sans",
-                                    dataDateFormat: "YYYY-MM-DD JJ:NN:SS",
-                                    dataProvider: e,
-                                    addClassNames: !0,
-                                    startDuration: 1,
-                                    color: "#6c7b88",
-                                    marginLeft: 0,
-                                    categoryField: "category",
-                                    categoryAxis: {
-                                        equalSpacing: false,
-                                        labelRotation: 40,
-                                        autoGridCount: !1,
-                                        gridCount: 50,
-                                        gridAlpha: .1,
-                                        gridColor: "#FFFFFF",
-                                        axisColor: "#555555",
-                                    },
-                                    valueAxes: [{
-                                        id: "a1",
-                                        title: "Rain Intensity By Each Rain Gauge",
-                                        gridAlpha: 0,
-                                        axisAlpha: 0
-                                    },],
-                                    graphs: [{
-                                        id: "g1",
-                                        valueField: "ponding",
-                                        title: "Rain Intensity",
-                                        type: "column",
-                                        "topRadius": 1,
-                                        fillAlphas: .7,
-                                        valueAxis: "a1",
-                                        balloonText: "[[value]] mm",
-                                        legendValueText: "[[category]] : [[value]] mm Rain",
-                                        legendPeriodValueText: "Average: [[value.average]] mm",
-                                        lineColor: "collr",
-                                        alphaField: "alpha",
-                                        colorField: "collr",
-                                        fillColors: "collr"
-                                    }
-                                    ],
-                                    "depth3D": 40,
-                                    "angle": 30,
-                                    "chartCursor": {
-                                        "categoryBalloonEnabled": false,
-                                        "cursorAlpha": 0,
-                                        "zoomable": false
-                                    },
-                                    chartCursor: {
-                                        zoomable: !1,
-                                        categoryBalloonDateFormat: "YYYY-MM-DD JJ:NN:SS",
-                                        cursorAlpha: 0,
-                                        categoryBalloonColor: "#e26a6a",
-                                        categoryBalloonAlpha: .8,
-                                        valueBalloonsEnabled: !1
-                                    },
-                                    legend: {
-                                        bulletType: "round",
-                                        equalWidths: !1,
-                                        valueWidth: 120,
-                                        useGraphSettings: !0,
-                                        color: "#6c7b88"
-                                    }
-                                })
-                            });
-
-                        }
-                    },
-
-                    initAmChart5: function () {
-                        if ("undefined" != typeof AmCharts) {
+                    //initAmChart2: function () {
+                    //    if ("undefined" != typeof AmCharts) {
 
 
-                            var disposalChartData;
-                            var eArray = [];
-                            var pondingArr = [];
-                            $.getJSON('/StorageTank/LoadStorageChartData/', function (data) {
-                                //console.log(data);
-                                var parsedObj = $.parseJSON(data);
-                                //console.log(data);
-                                $.each(parsedObj, function (key, obj) {
-                                    var colr = "#00ff00";
+                    //        var disposalChartData;
+                    //        var eArray = [];
+                    //        var pondingArr = [];
+                    //        $.getJSON('/Rain/LoadRainChartData/', function (data) {
+                    //            var parsedObj = $.parseJSON(data);
+                    //            //alert(data);
+                    //            $.each(parsedObj, function (key, obj) {
+                    //                var colr = "";
+                    //                if (obj.ponding < 3) {
+                    //                    colr = "#08a3cc";
+                    //                }
+                    //                else {
+                    //                    colr = "#ff0000";
+                    //                }
+                    //                var eObj = {
+                    //                    category: obj.category,
+                    //                    ponding: obj.ponding,
+                    //                    townName: obj.townName,
+                    //                    townName2: obj.townName2,
+                    //                    collr: colr
+                    //                };
+                    //                eArray.push(eObj);
+                    //                pondingArr.push(obj.ponding);
+                    //            });
+                    //            var e = eArray;
+                    //            AmCharts.makeChart("dashboard_amchart_2", {
+                    //                type: "serial",
+                    //                fontSize: 12,
+                    //                fontFamily: "Open Sans",
+                    //                dataDateFormat: "YYYY-MM-DD JJ:NN:SS",
+                    //                dataProvider: e,
+                    //                addClassNames: !0,
+                    //                startDuration: 1,
+                    //                color: "#6c7b88",
+                    //                marginLeft: 0,
+                    //                categoryField: "category",
+                    //                categoryAxis: {
+                    //                    equalSpacing: false,
+                    //                    labelRotation: 40,
+                    //                    autoGridCount: !1,
+                    //                    gridCount: 50,
+                    //                    gridAlpha: .1,
+                    //                    gridColor: "#FFFFFF",
+                    //                    axisColor: "#555555",
+                    //                },
+                    //                valueAxes: [{
+                    //                    id: "a1",
+                    //                    title: "Rain Intensity By Each Rain Gauge",
+                    //                    gridAlpha: 0,
+                    //                    axisAlpha: 0
+                    //                },],
+                    //                graphs: [{
+                    //                    id: "g1",
+                    //                    valueField: "ponding",
+                    //                    title: "Rain Intensity",
+                    //                    type: "column",
+                    //                    "topRadius": 1,
+                    //                    fillAlphas: .7,
+                    //                    valueAxis: "a1",
+                    //                    balloonText: "[[value]] mm",
+                    //                    legendValueText: "[[category]] : [[value]] mm Rain",
+                    //                    legendPeriodValueText: "Average: [[value.average]] mm",
+                    //                    lineColor: "collr",
+                    //                    alphaField: "alpha",
+                    //                    colorField: "collr",
+                    //                    fillColors: "collr"
+                    //                }
+                    //                ],
+                    //                "depth3D": 40,
+                    //                "angle": 30,
+                    //                "chartCursor": {
+                    //                    "categoryBalloonEnabled": false,
+                    //                    "cursorAlpha": 0,
+                    //                    "zoomable": false
+                    //                },
+                    //                chartCursor: {
+                    //                    zoomable: !1,
+                    //                    categoryBalloonDateFormat: "YYYY-MM-DD JJ:NN:SS",
+                    //                    cursorAlpha: 0,
+                    //                    categoryBalloonColor: "#e26a6a",
+                    //                    categoryBalloonAlpha: .8,
+                    //                    valueBalloonsEnabled: !1
+                    //                },
+                    //                legend: {
+                    //                    bulletType: "round",
+                    //                    equalWidths: !1,
+                    //                    valueWidth: 120,
+                    //                    useGraphSettings: !0,
+                    //                    color: "#6c7b88"
+                    //                }
+                    //            })
+                    //        });
 
-                                    var eObj = {
-                                        category: obj.category,
-                                        pName: 'Tank Level',
-                                        ponding: obj.ponding,
-                                        collr: colr
-                                    };
-                                    eArray.push(eObj);
-                                    pondingArr.push(obj.ponding);
-                                });
-                                var e = eArray;
-                                AmCharts.makeChart("dashboard_amchart_5", {
-                                    type: "serial",
-                                    fontSize: 12,
-                                    fontFamily: "Open Sans",
-                                    dataDateFormat: "YYYY-MM-DD JJ:NN:SS",
-                                    dataProvider: e,
-                                    addClassNames: !0,
-                                    startDuration: 1,
-                                    color: "#6c7b88",
-                                    marginLeft: 0,
-                                    categoryField: "category",
-                                    categoryAxis: {
-                                        equalSpacing: false,
-                                        labelRotation: 60,
-                                        autoGridCount: !1,
-                                        gridCount: 50,
-                                        gridAlpha: .1,
-                                        gridColor: "#FFFFFF",
-                                        axisColor: "#555555",
-                                    },
-                                    valueAxes: [{
-                                        id: "a1",
-                                        title: "Storage Tanks Well Level",
-                                        gridAlpha: 0,
-                                        axisAlpha: 0
-                                    },],
-                                    graphs: [{
-                                        id: "g1",
-                                        valueField: "ponding",
-                                        //title: "Value",
-                                        type: "column",
-                                        "topRadius": 1,
-                                        fillAlphas: .7,
-                                        valueAxis: "a1",
-                                        balloonText: "[[value]] ft",
-                                        //legendValueText: "[[value]] inch",
-                                        legendValueText: "Tank Level ",
-                                        //legendPeriodValueText: "Average: [[value.average]] inch",
-                                        lineColor: "collr",
-                                        alphaField: "alpha",
-                                        colorField: "collr",
-                                        fillColors: "collr"
-                                    },
-                                    ],
-                                    "depth3D": 40,
-                                    "angle": 30,
-                                    "chartCursor": {
-                                        "categoryBalloonEnabled": false,
-                                        "cursorAlpha": 0,
-                                        "zoomable": false
-                                    },
-                                    chartCursor: {
-                                        zoomable: !1,
-                                        categoryBalloonDateFormat: "YYYY-MM-DD JJ:NN:SS",
-                                        cursorAlpha: 0,
-                                        categoryBalloonColor: "#e26a6a",
-                                        categoryBalloonAlpha: .8,
-                                        valueBalloonsEnabled: !1
-                                    }
-                                })
-                            });
+                    //    }
+                    //},
 
-                        }
-                    },
+                    //initAmChart5: function () {
+                    //    if ("undefined" != typeof AmCharts) {
+
+
+                    //        var disposalChartData;
+                    //        var eArray = [];
+                    //        var pondingArr = [];
+                    //        $.getJSON('/StorageTank/LoadStorageChartData/', function (data) {
+                    //            //console.log(data);
+                    //            var parsedObj = $.parseJSON(data);
+                    //            //console.log(data);
+                    //            $.each(parsedObj, function (key, obj) {
+                    //                var colr = "#00ff00";
+
+                    //                var eObj = {
+                    //                    category: obj.category,
+                    //                    pName: 'Tank Level',
+                    //                    ponding: obj.ponding,
+                    //                    collr: colr
+                    //                };
+                    //                eArray.push(eObj);
+                    //                pondingArr.push(obj.ponding);
+                    //            });
+                    //            var e = eArray;
+                    //            AmCharts.makeChart("dashboard_amchart_5", {
+                    //                type: "serial",
+                    //                fontSize: 12,
+                    //                fontFamily: "Open Sans",
+                    //                dataDateFormat: "YYYY-MM-DD JJ:NN:SS",
+                    //                dataProvider: e,
+                    //                addClassNames: !0,
+                    //                startDuration: 1,
+                    //                color: "#6c7b88",
+                    //                marginLeft: 0,
+                    //                categoryField: "category",
+                    //                categoryAxis: {
+                    //                    equalSpacing: false,
+                    //                    labelRotation: 60,
+                    //                    autoGridCount: !1,
+                    //                    gridCount: 50,
+                    //                    gridAlpha: .1,
+                    //                    gridColor: "#FFFFFF",
+                    //                    axisColor: "#555555",
+                    //                },
+                    //                valueAxes: [{
+                    //                    id: "a1",
+                    //                    title: "Storage Tanks Well Level",
+                    //                    gridAlpha: 0,
+                    //                    axisAlpha: 0
+                    //                },],
+                    //                graphs: [{
+                    //                    id: "g1",
+                    //                    valueField: "ponding",
+                    //                    //title: "Value",
+                    //                    type: "column",
+                    //                    "topRadius": 1,
+                    //                    fillAlphas: .7,
+                    //                    valueAxis: "a1",
+                    //                    balloonText: "[[value]] ft",
+                    //                    //legendValueText: "[[value]] inch",
+                    //                    legendValueText: "Tank Level ",
+                    //                    //legendPeriodValueText: "Average: [[value.average]] inch",
+                    //                    lineColor: "collr",
+                    //                    alphaField: "alpha",
+                    //                    colorField: "collr",
+                    //                    fillColors: "collr"
+                    //                },
+                    //                ],
+                    //                "depth3D": 40,
+                    //                "angle": 30,
+                    //                "chartCursor": {
+                    //                    "categoryBalloonEnabled": false,
+                    //                    "cursorAlpha": 0,
+                    //                    "zoomable": false
+                    //                },
+                    //                chartCursor: {
+                    //                    zoomable: !1,
+                    //                    categoryBalloonDateFormat: "YYYY-MM-DD JJ:NN:SS",
+                    //                    cursorAlpha: 0,
+                    //                    categoryBalloonColor: "#e26a6a",
+                    //                    categoryBalloonAlpha: .8,
+                    //                    valueBalloonsEnabled: !1
+                    //                }
+                    //            })
+                    //        });
+
+                    //    }
+                    //},
 
 
 
                     init: function () {
 
-                        this.initAmChart1();
-                        this.initAmChart2();
-                        this.initAmChart5();
+                        //this.initAmChart1();
+                        //this.initAmChart2();
+                        //this.initAmChart5();
                     }
                 };
 

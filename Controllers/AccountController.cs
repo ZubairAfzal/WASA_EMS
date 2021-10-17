@@ -40,7 +40,14 @@ namespace WASA_EMS.Controllers
                         Session["UserName"] = User.UserName;
                         Session["CompanyID"] = CompanyID;
                         Session["UserID"] = User.UserID;
-                        return RedirectToAction("Welcome", "Home");
+                        if (User.UserName == "Aab-e-Pak")
+                        {
+                            return RedirectToAction("Dashboard", "FiltrationPlants");
+                        }
+                        else
+                        {
+                            return RedirectToAction("Welcome", "Home");
+                        }
                     }
                 }
             }

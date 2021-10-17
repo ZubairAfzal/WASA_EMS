@@ -622,15 +622,6 @@ div#chartContainer2 {
     position: relative;
 }
 
-    div#chartContainer2:after {
-        content: "";
-        position: absolute;
-        bottom: 190px;
-        left: 0px;
-        background: #fbfdff;
-        width: 61px;
-        height: 10px;
-    }
 
 a.canvasjs-chart-credit {
     display: none;

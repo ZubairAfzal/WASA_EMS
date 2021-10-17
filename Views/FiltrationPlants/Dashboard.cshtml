@@ -24,6 +24,15 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.bundle.min.js"></script>
 <script src="~/Metronic/assets/global/scripts/bootstrap-select.min.js"></script>
 <script src="~/Metronic/assets/global/plugins/moment.min.js"></script>
+<style>
+    .table-bordered, .table-bordered > tbody > tr > td, .table-bordered > tbody > tr > th, .table-bordered > tfoot > tr > td, .table-bordered > tfoot > tr > th, .table-bordered > thead > tr > td, .table-bordered > thead > tr > th {
+        border: transparent !important;
+    }
+    .divBackground {
+        background-color:lightskyblue;
+        padding: 11px;
+    }
+</style>
 
 <div class="row">
     <div class="container-fluid">
@@ -38,10 +47,7 @@
                         <!-- BEGIN EXAMPLE TABLE PORTLET-->
                         <div class="portlet light bordered">
                             <div class="row widget-row">
-                                <div class="col-md-1">
-                                    <img src="~/Assets/img/Rain.png" style="width:90px;" />
-                                </div>
-                                <div class="col-md-11">
+                                <div class="col-md-12">
                                     <div class="col-md-4 col-sm-12">
                                         <!-- BEGIN WIDGET THUMB -->
                                         <div class="widget-thumb widget-bg-color-white text-uppercase margin-bottom-20 " style="background-color:transparent; border-radius:10px !important; height: 100px; padding: 0px !important; ">
@@ -130,7 +136,7 @@
                                                     <div id="collapseOne" class="" aria-labelledby="headingOne" data-parent="#accordion">
                                                         <div class="card-body">
                                                             <center>
-                                                                <div id="chartContainer2" style="width: 95%; height: 300px"></div>
+                                                                <div id="chartContainer2" style="width: 95%; height: 500px"></div>
                                                             </center>
                                                         </div>
                                                     </div>
@@ -144,7 +150,7 @@
                                                             <div class="portlet-title">
                                                                 <div class="caption font-dark">
                                                                     <i class="font-dark"><img src="~/Assets/img/location1.png" style="width:28px;vertical-align:baseline; margin-right:5px;" /></i>
-                                                                    <span class="caption-subject bold uppercase" style="vertical-align:bottom;">Live Location of Filtration Plants</span>
+                                                                    <span class="caption-subject bold uppercase" style="vertical-align:bottom;">Live Location</span>
                                                                 </div>
                                                             </div>
                                                         </button>
@@ -155,7 +161,7 @@
                                                                 <!-- BEGIN EXAMPLE TABLE PORTLET-->
                                                                 <div class="portlet light bordered">
                                                                     <div class="portlet-body">
-                                                                        <div id="ponding_map" class="gmaps"> </div>
+                                                                        <div id="ponding_map" class="gmaps" style="height:500px !important"> </div>
                                                                     </div>
                                                                 </div>
                                                                 <!-- END EXAMPLE TABLE PORTLET-->
@@ -172,53 +178,117 @@
                                                             <div class="portlet-title">
                                                                 <div class="caption font-dark">
                                                                     <i class="font-dark"><img src="~/Assets/img/report1.png" style="width:28px;vertical-align:baseline; margin-right:5px;" /></i>
-                                                                    <span class="caption-subject bold uppercase" style="vertical-align:bottom;">Filtration Plants Real Time Data</span>
+                                                                    <span class="caption-subject bold uppercase" style="vertical-align:bottom;">Filtration Plants Data</span>
                                                                 </div>
                                                             </div>
                                                         </button>
                                                     </div>
                                                     <div id="collapseThree" class="" aria-labelledby="headingThree" data-parent="#accordion">
                                                         <div class="card-body">
-                                                            <table class="table table-striped table-bordered table-hover" id="datatable1" style="text-align:center">
-                                                                <thead style="font-weight:bold">
-                                                                    <tr style="background-color: #a8c9cd;">
-                                                                        <th>Pump No. 1</th>
-                                                                        <th>Pump No. 2</th>
-                                                                        <th>Voltage</th>
-                                                                        <th>Current</th>
-                                                                        <th>Power Factor</th>
-                                                                        <th>Frequency</th>
-                                                                        <th>Power (KVA)</th>
-                                                                        <th>Power (KVAR)</th>
-                                                                        <th>Power (KW)</th>
-                                                                        <th>Water Flow</th>
-                                                                        <th>Chlorine Level</th>
-                                                                        <th>Tank No. 1</th>
-                                                                        <th>Tank No. 2</th>
-                                                                        <th>TDS</th>
+                                                            <table class="table table-striped table-bordered" id="datatable1" style="text-align:center; width: 100%">
+                                                                <thead style="font-weight: bold; text-align: center; border: 3px solid #2dff2d !important; border-radius: 20px !important;">
+                                                                    <tr style="border: 1px solid #8aeb6a; background-color: #46518b; color:white">
+                                                                        <th style=" text-align: center; ">Plant ID</th>
+                                                                        <th style=" text-align: center; ">Location</th>
+                                                                        <th style=" text-align: center; ">Last Activity at</th>
+                                                                        <th style=" text-align: center; ">Current Process</th>
+                                                                        <th style=" text-align: center; ">Wapda</th>
+                                                                        <th style=" text-align: center; ">Mode</th>
+                                                                        <th style=" text-align: center; ">Feed Tank</th>
+                                                                        <th style=" text-align: center; ">Pump Status</th>
+                                                                        <th style=" text-align: center; ">Product Tank</th>
+                                                                        <th style=" text-align: center; ">Water Flow</th>
                                                                     </tr>
                                                                 </thead>
                                                                 <tbody>
-                                                                    <tr>
-                                                                        <td>@Model[0]</td>
-                                                                        <td>@Model[1]</td>
-                                                                        <td>@Model[2]</td>
-                                                                        <td>@Model[3]</td>
-                                                                        <td>@Model[4]</td>
-                                                                        <td>@Model[5]</td>
-                                                                        <td>@Model[6]</td>
-                                                                        <td>@Model[7]</td>
-                                                                        <td>@Model[8]</td>
-                                                                        <td>@Model[9]</td>
-                                                                        <td>@Model[10]</td>
-                                                                        <td>@Model[11]</td>
-                                                                        <td>@Model[12]</td>
-                                                                        <td>@Model[13]</td>
+                                                                    <tr style="border: 2px transparent; background-color: #46518b; height:50px">
+                                                                        <td style=" text-align: center; "><div class="divBackground">1</div></td>
+                                                                        <td style=" text-align: center; "><div class="divBackground">Pattoki Water Filtration Plant</div></td>
+                                                                        <td style=" text-align: center; "><div class="divBackground">@Model[15].ToString()</div></td>
+                                                                        <td style=" text-align: center; "><div class="divBackground">Running</div></td>
+                                                                        <td style=" text-align: center; ">
+                                                                            @if (Convert.ToDouble(Model[2].ToString()) > 0)
+                                                                            {
+                                                                                <div>
+                                                                                    <img src="~/Content/images/icons8-wapda-ON.png" width="50" style="margin-top: -9px;"  />
+                                                                                </div>
+                                                                            }
+                                                                            else
+                                                                            {
+                                                                                <div>
+                                                                                    <img src="~/Content/images/icons8-wapda-OFF.png" width="50" style="margin-top: -9px;" />
+                                                                                </div>
+                                                                            }
+                                                                        </td>
+                                                                        <td style=" text-align: center; ">
+                                                                            @if (Model[14].ToString() == "Manual")
+                                                                            {
+                                                                                <div>
+                                                                                    <img src="~/Content/images/icons8-automatic.png" width="45" style="margin-top: -3px;" />
+                                                                                </div>
+                                                                            }
+                                                                            else
+                                                                            {
+                                                                                <div>
+                                                                                    <img src="~/Content/images/icons8-automatic.png" width="45" style="margin-top: -3px;" />
+                                                                                </div>
+                                                                            }
+                                                                        </td>
+                                                                        <td style=" text-align: center; ">
+                                                                            @if (Convert.ToDouble(Model[11].ToString()) > 2)
+                                                                            {
+                                                                                <div>
+                                                                                    <img src="~/Content/images/icons8-tank-FULL.png"  width="45" style="margin-top: -4px;" />
+                                                                                </div>
+                                                                            }
+                                                                            else
+                                                                            {
+                                                                                <div>
+                                                                                    <img src="~/Content/images/icons8-tank-EMPTY.png"  width="45" style="margin-top: -4px;" />
+                                                                                </div>
+                                                                            }
+                                                                        </td>
+                                                                        <td style=" text-align: center; ">
+                                                                            <div>
+                                                                                @if (Model[0].ToString() == "ON")
+                                                                                {
+                                                                                    <img src="~/Content/images/icons8-pump-ON.png" width="45" style="margin-top: -3px;" />
+                                                                                }
+                                                                                else
+                                                                                {
+                                                                                    <img src="~/Content/images/icons8-pump-OFF.png" width="45" style="margin-top: -3px;" />
+                                                                                }
+                                                                                &nbsp;&nbsp;&nbsp;
+                                                                                @if (Model[1].ToString() == "ON")
+                                                                                {
+                                                                                    <img src="~/Content/images/icons8-pump-ON.png" width="45" style="margin-top: -3px;" />
+                                                                                }
+                                                                                else
+                                                                                {
+                                                                                    <img src="~/Content/images/icons8-pump-OFF.png" width="45" style="margin-top: -3px;" />
+                                                                                }
+                                                                            </div>
+                                                                        </td>
+                                                                        <td style=" text-align: center; ">
+                                                                            @if (Convert.ToDouble(Model[12].ToString()) > 2)
+                                                                            {
+                                                                                <div>
+                                                                                    <img src="~/Content/images/icons8-tank-FULL.png"  width="45" style="margin-top: -4px;" />
+                                                                                </div>
+                                                                            }
+                                                                            else
+                                                                            {
+                                                                                <div>
+                                                                                    <img src="~/Content/images/icons8-tank-EMPTY.png"  width="45" style="margin-top: -4px;" />
+                                                                                </div>
+                                                                            }
+                                                                        </td>
+                                                                        <td style=" text-align: center; "><div class="divBackground">@Model[9] m3h</div></td>
                                                                     </tr>
                                                                 </tbody>
 
-                                                            </table>
-                                                        </div>
+                                                                </table>
+                                                            </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -409,7 +479,7 @@
 <script type="text/javascript">
     $(document).ready(function () {
         var table = $('#datatable1').DataTable({
-            searching: false, paging: false, info: false
+            searching: false, paging: false, info: false, ordering: false, "scrollX": true
         });
     });
 </script>

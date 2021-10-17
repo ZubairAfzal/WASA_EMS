@@ -190,21 +190,24 @@
                 opacity: 0.5;
                 background: #ddd;
             }
+    .div#chartContainer2:after {
+        content: "";
+        position: absolute;
+        bottom: 190px;
+        left: 0px;
+        background: transparent;
+        width: 61px;
+        height: 0px !important;
+    }
 </style>
-<script type="text/javascript">
-    $(document).ready(function () {
-        @Html.Raw(ViewData["chartData"])
-        chart1.render();
-        function toogleDataSeries(e) {
-            if (typeof (e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
-                e.dataSeries.visible = false;
-            } else {
-                e.dataSeries.visible = true;
-            }
-            chart1.render();
-        }
-    });
-</script>
+
+
+
+<script src="https://cdn.amcharts.com/lib/4/core.js"></script>
+<script src="https://cdn.amcharts.com/lib/4/charts.js"></script>
+<script src="https://cdn.amcharts.com/lib/4/themes/animated.js"></script>
+
+
 
 
 <script>
@@ -328,7 +331,7 @@
 
 
 		chart3.data = [{
-            "mode": "Working Hours in Remote",
+            "mode": "Working Hours in Auto Mode",
             "Hours": @Model.First().workingInHoursRemote
         }, {
             "mode": "Total Hours",
@@ -665,8 +668,104 @@
             "Hours": @Math.Round((Model.First().avgOfNonAvailableHours / 0.3), 2)
         }];
 
+        //am4core.useTheme(am4themes_animated);
+        var jsonObj = @Html.Raw(ViewData["amChartData"]);
+        var chart = am4core.create("chartContainer2", am4charts.XYChart);
+        chart.paddingLeft = 30;
+        let title = chart.titles.create();
+        title.text = jsonObj.parameterName + " Data fetched between " + jsonObj.fromDate + " to " + jsonObj.toDate +" ";
+        title.fontSize = 25;
+        title.marginBottom = 10;
+        var dateAxis = chart.xAxes.push(new am4charts.DateAxis());
+        dateAxis.baseInterval = {
+            "timeUnit": "minute",
+            "count": 1
+        };
+        dateAxis.dateFormats.setKey('hour', 'hh:mm a');
+        dateAxis.tooltipDateFormat = " d-MM-yyyy hh:mm:ss a";
+        var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+        valueAxis.tooltip.disabled = true;
+        valueAxis.renderer.labels.template.disabled = true;
+        //valueAxis.min = -0.2;
+        //valueAxis.max = 1.2;
 
+        if (jsonObj.SpellDataArray.length === 0) { }
+        else {
+            var series1 = chart.series.push(new am4charts.LineSeries());
+            var data1 = [];
+            //console.log(jsonObj[j].locationName);
+            for (var i = 0; i < jsonObj.SpellTimeArray.length; i++) {
+                var Thedate = jsonObj.SpellTimeArray[i];
+                var changeDate = moment(Thedate, 'DD/MM/YYYY HH:mm:ss A').format("MM/DD/YYYY HH:mm:ss");
+                var dateObj = new Date((changeDate));
+                var valuep1 = jsonObj.SpellDataArray[i];
 
+                var location = jsonObj.locationName;
+                if (jsonObj.parameterName === "Pump No. 1") {
+                    if (jsonObj.SpellDataArray[i] == 0) {
+                        data1.push({ location1: location, paramameter: 'Pump No. 1 Status', date1: dateObj, value1: valuep1, status1: 'OFF' });
+                    }
+                    else {
+                        data1.push({ location1: location, paramameter: 'Pump No. 1 Status', date1: dateObj, value1: valuep1, status1: 'ON' });
+                    }
+                }
+                else if (jsonObj.parameterName === "Pump No. 2") {
+                    if (jsonObj.SpellDataArray[i] == 0) {
+                        data1.push({ location1: location, paramameter: 'Pump No. 2 Status', date1: dateObj, value1: valuep1, status1: 'OFF' });
+                    }
+                    else {
+                        data1.push({ location1: location, paramameter: 'Pump No. 2 Status', date1: dateObj, value1: valuep1, status1: 'ON' });
+                    }
+                }
+                else if (jsonObj.parameterName === "Chlorine Level") {
+                    if (jsonObj.SpellDataArray[i] == 0) {
+                        data1.push({ location1: location, paramameter: 'Chlorine Level', date1: dateObj, value1: valuep1, status1: 'LOW' });
+                    }
+                    else {
+                        data1.push({ location1: location, paramameter: 'Chlorine Level', date1: dateObj, value1: valuep1, status1: 'HIGH' });
+                    }
+                }
+                else if (jsonObj.parameterName === "Manual Mode") {
+                    if (jsonObj.SpellDataArray[i] == 0) {
+                        data1.push({ location1: location, paramameter: 'Mode', date1: dateObj, value1: valuep1, status1: 'Auto' });
+                    }
+                    else {
+                        data1.push({ location1: location, paramameter: 'Chlorine Level', date1: dateObj, value1: valuep1, status1: 'Manual' });
+                    }
+                }
+                else {
+                    data1.push({ location1: location, paramameter: jsonObj.parameterName, date1: dateObj, value1: valuep1, status1: valuep1 });
+                }
+
+            }
+            series1.data = data1;
+            series1.dataFields.dateX = "date1";
+            series1.dataFields.valueY = "value1";
+            series1.dataFields.status1 = "status1";
+            series1.dataFields.location = "location1";
+            if (jsonObj.parameterName === "Pump No. 1") {
+                series1.tooltipText = " Pump No. 1 Status: [bold]{status1}[/] ";
+            }
+            else if (jsonObj.parameterName === "Pump No. 2") {
+                series1.tooltipText = " Pump No. 2 Status: [bold]{status1}[/] ";
+            }
+            else if (jsonObj.parameterName === "Chlorine Level") {
+                series1.tooltipText = " Chlorine Level: [bold]{status1}[/] ";
+            }
+            else if (jsonObj.parameterName === "Manual Mode") {
+                series1.tooltipText = " Mode : [bold]{status1}[/] ";
+            }
+            else {
+                series1.tooltipText = " " + jsonObj.parameterName +" : [bold]{status1}[/] ";
+            }
+            series1.name = jsonObj.parameterName;
+            series1.fillOpacity = 0.3;
+
+        }
+        chart.cursor = new am4charts.XYCursor();
+        chart.cursor.lineY.opacity = 0;
+
+        chart.legend = new am4charts.Legend();
 
 
     }); // end am4core.ready()
@@ -679,7 +778,7 @@
                 <div class="widget-content">
                     <div>
                         <center>
-                            <div id="chartContainer1" style="width: 95%; height: 500px"></div>
+                            <div id="chartContainer2" style="width: 95%; height: 500px"></div>
                         </center>
                     </div>
                 </div>
@@ -701,25 +800,25 @@
                             {
 
 
-                                <div class="col-md-3 col-sm-12 col-lg-3 chartdiv">
+                                <div class="col-md-4 col-sm-12 col-lg-4 chartdiv">
 
                                     <div id="chartdiv1" style="display:block !important; height:300px !important; width: auto"></div>
                                     <div id="legend1" style="display:block !important; height:100px !important"></div>
                                 </div>
 
-                                <div class="col-md-3 col-sm-12 col-lg-3 chartdiv">
+                                <div class="col-md-4 col-sm-12 col-lg-4 chartdiv">
 
                                     <div id="chartdiv2" style="display:block !important; height:300px !important; width: auto"></div>
                                     <div id="legend2" style="display:block !important; height:100px !important"></div>
                                 </div>
 
-                                <div class="col-md-3 col-sm-12 col-lg-3 chartdiv">
+                                <div class="col-md-4 col-sm-12 col-lg-4 chartdiv">
 
                                     <div id="chartdiv3" style="display:block !important; height:300px !important; width: auto"></div>
                                     <div id="legend3" style="display:block !important; height:100px !important"></div>
                                 </div>
 
-                                <div class="col-md-3 col-sm-12 col-lg-3 chartdiv">
+                                <div class="col-md-3 col-sm-12 col-lg-3 chartdiv" style="display:none">
 
                                     <div id="chartdiv4" style="display:block !important; height:300px !important; width: auto"></div>
                                     <div id="legend4" style="display:block !important; height:100px !important"></div>
@@ -751,6 +850,21 @@
                                     <div id="legend5" style="display:block !important; height:100px !important; float: none !important"></div>
                                 </div>
                                 <div class="col-md-6 col-sm-12 col-lg-6 chartdiv" id="chartdiv6"></div>
+                                <div class="col-md-3 col-sm-12 col-lg-3 chartdiv" id="chartdiv7" style="display:none !important"></div>
+                                <div class="col-md-3 col-sm-12 col-lg-3 chartdiv" id="chartdiv8" style="display:none !important"></div>
+                                <div class="col-md-3 col-sm-12 col-lg-3 chartdiv" id="chartdiv9" style="display:none !important"></div>
+                            }
+                            else if (Model.First().parameterName == "Manual Mode")
+                            {
+                                <div class="col-md-3 col-sm-12 col-lg-3 chartdiv" id="chartdiv1" style="display:none !important"></div>
+                                <div class="col-md-3 col-sm-12 col-lg-3 chartdiv" id="chartdiv2" style="display:none !important"></div>
+                                <div class="col-md-3 col-sm-12 col-lg-3 chartdiv" id="chartdiv3" style="display:none !important"></div>
+                                <div class="col-md-3 col-sm-12 col-lg-3 chartdiv" id="chartdiv4" style="display:none !important"></div>
+                                <div class="col-md-12 col-sm-12 col-lg-12 chartdiv">
+                                    <div id="chartdiv5" style="display:block !important; height:400px !important; width: auto"></div>
+                                    <div id="legend5" style="display: block !important; height: 100px !important; float: none; margin-left: -120px;"></div>
+                                </div>
+                                <div class="col-md-6 col-sm-12 col-lg-6 chartdiv" id="chartdiv6" style="display:none !important"></div>
                                 <div class="col-md-3 col-sm-12 col-lg-3 chartdiv" id="chartdiv7" style="display:none !important"></div>
                                 <div class="col-md-3 col-sm-12 col-lg-3 chartdiv" id="chartdiv8" style="display:none !important"></div>
                                 <div class="col-md-3 col-sm-12 col-lg-3 chartdiv" id="chartdiv9" style="display:none !important"></div>
@@ -788,3 +902,19 @@
     </div>
 
 </div>
+
+
+@section scripts {
+    <section class="scripts">
+
+        <script type="text/javascript">
+            window.onload = function ()
+            {
+                
+                am4core.ready(function () {
+                    
+                });
+            }
+        </script>
+    </section>
+}

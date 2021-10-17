@@ -6671,6 +6671,8 @@
     <Content Include="Views\FiltrationPlants\EnergyMonitoringReport.cshtml" />
     <Content Include="Views\FiltrationPlants\_EnergyMonitoringReportView.cshtml" />
     <Content Include="Views\FiltrationPlants\Dashboard.cshtml" />
+    <Content Include="Views\FiltrationPlants\WaterDischargeReport.cshtml" />
+    <Content Include="Views\FiltrationPlants\_WaterDischargeReportView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

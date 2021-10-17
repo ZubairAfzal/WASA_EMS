@@ -10,6 +10,8 @@ namespace WASA_EMS
     {
         [Display(Name = "Location Name")]
         public string locationName { get; set; }
+        public string fromDate { get; set; }
+        public string toDate { get; set; }
         public List<double> pumpStatus1 { get; set; }
 
         public List<double> manualStatus { get; set; }
@@ -36,7 +38,8 @@ namespace WASA_EMS
         public string waterDischarge { get; set; }
         public string chartString { get; set; }
         public List<string> SpellTimeArray = new List<string>();
-
+        public List<double> SpellDataArray = new List<double>();
+        public List<double> SpellDataArray2 = new List<double>();
 
         public double avgCurrentWorking { get; set; }
         public double avgCurrentNonWorking { get; set; }
@@ -55,6 +58,7 @@ namespace WASA_EMS
         public double avgPKVARNonWorking { get; set; }
         public double avgPKWWorking { get; set; }
         public double avgPKWNonWorking { get; set; }
+        public double avgWaterFlow { get; set; }
         public double minTank1 { get; set; }
         public double maxTank1 { get; set; }
         public double minTank2 { get; set; }

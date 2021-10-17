@@ -1,4 +1,5 @@
-﻿@using System.Data;
+﻿
+@using System.Data;
 @using System.Data.SqlClient;
 @using Newtonsoft.Json;
 @model IEnumerable<FiltrationPlantTableData>
@@ -24,6 +25,7 @@
 <link href="~/Metronic/assets/global/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
 
 
+
 <body>
     <div class="portlet-title">
         <div class="row" style="opacity:0.9">
@@ -44,77 +46,39 @@
 
     <hr style="margin-top: 1rem; margin-bottom: 1rem; border: 0; border-top: 1px solid rgba(0, 0, 0, 0.1);" />
 
-    <div style="position:absolute;margin-top: 35px;margin-left: 2%;font-size: medium;font-weight:bold; font-family: monospace;" class="row">
-        <span style="color:red">*</span>  All the values from “Power Factor” to “PKW” are averaged
-    </div>
+    <div class="row" style="opacity:0.9">
+        <div class="portlet-body">
+            <div class="widget stacked" style="margin-top:70px; ">
+                <div class="widget-content">
+                    <div>
+                        <center>
 
-    <div class="portlet-title">
-        <div class="row" style="opacity:0.9">
-            <div class="portlet-body">
-                <div class="widget stacked" style="margin-top:70px; ">
-                    <div class="widget-content">
-                        <div>
-                            <center>
-                                <table id="tubeWellTable" class="display" style="width:100%;">
-                                    <thead>
-                                        <tr style="background-color: #a8c9cd;">
-                                            <th>Date</th>
-                                            <th>Name of Location</th>
-                                            <th>Total Working Hours</th>
-                                            <th>Power Factor</th>
-                                            <th> Voltage V (ln)</th>
-                                            <th> Voltage V (ll)</th>
-                                            <th> Current (Ampere)</th>
-                                            <th>Frequency (Hz)</th>
-                                            <th>PKVA</th>
-                                            <th>PKVAR</th>
-                                            <th>PKW</th>
-                                            <th>Units Consumed</th>
+                            <table id="tubeWellTable" class="display" style="width:100%;">
+                                <thead>
+                                    <tr style="background-color: #a8c9cd;">
+                                        <th>Name of Location</th>
+                                        <th>Avg Water Flow (m3/h)</th>
+                                        <th>Avg Water Flow (cfs)</th>
+                                        <th>Water Discharged (Gallon)</th>
+                                        <th>Water Discharged (Litre)</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model)
+                                    {
+                                        <tr>
+                                            <td style="text-align:left !important;">Pattoki Water Filtration Plant</td>
+                                            <td>@item.avgWaterFlow</td>
+                                            <td>@item.avgWaterFlow</td>
+                                            <td>@item.waterDischarge</td>
+                                            <td>@item.waterDischarge</td>
                                         </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach (var item in Model)
-                                        {
-                                            <tr>
-                                                <td>@item.logDate</td>
-                                                <td style="text-align:left !important">@item.locationName</td>
-                                                @if (item.pumpStatus1.Count == 0)
-                                                {
-                                                    <td>-</td>
-                                                    <td>-</td>
-                                                    <td>-</td>
-                                                    <td>-</td>
-                                                    <td>-</td>
-                                                    <td>-</td>
-                                                    <td>-</td>
-                                                    <td>-</td>
-                                                    <td>-</td>
-                                                    <td>-</td>
-                                                }
-                                                else
-                                                {
-                                                    var pp = TimeSpan.FromMinutes((item.workingInHours) * 60);
-                                                    int phour = (int)pp.TotalHours;
-                                                    int pmin = (int)pp.Minutes;
-                                                    int psec = (int)pp.Seconds;
-                                                    string pstr = " " + phour.ToString() + " Hours, " + pmin.ToString() + " Minutes";
-                                                    <td>@pstr</td>
-                                                    <td>@item.avgPFWorking</td>
-                                                    <td>@item.avgVoltageWorking</td>
-                                                    <td>@item.avgVoltageWorking</td>
-                                                    <td>@item.avgCurrentWorking</td>
-                                                    <td>@item.avgFrequencyWorking</td>
-                                                    <td>@item.avgPKVAWorking</td>
-                                                    <td>@item.avgPKVARWorking</td>
-                                                    <td>@item.avgPKWWorking</td>
-                                                    <td>@(String.Format("{0:n0}", Math.Round((item.avgPKWWorking * item.workingInHours), 2))) </td>
-                                                }
-                                            </tr>
-                                        }
-                                    </tbody>
-                                </table>
-                            </center>
-                        </div>
+                                    }
+                                </tbody>
+                            </table>
+
+
+                        </center>
                     </div>
                 </div>
             </div>
@@ -126,6 +90,7 @@
             document.write('<script type="text/javascript" src="../../Metronic/assets/global/scripts/jquery.min.js"></' + 'script> ');
             document.write('<script type = "text/javascript" src = "../../Scripts/jquery-ui.js" ></' + 'script> ');
 
+            document.write('<script type="text/javascript" src="https://canvasjs.com/assets/script/canvasjs.min.js"></' + 'scrip> ');
             document.write('<script type = "text/javascript" src = "../../Metronic/assets/global/plugins/bootstrap/js/bootstrap.min.js"></' + 'script> ');
             document.write('<script type="text/javascript" src="../../Metronic/assets/global/scripts/datatables.min.js"></' + 'script>');
             document.getElementById("tubeWellTable").style.fontSize = "14";
@@ -134,21 +99,10 @@
         }
 
     </script>
-
-
     <script type="text/javascript">
     $(document).ready(function () {
-        //@Html.Raw(ViewData["chartData"])
-        //chart1.render();
-        function toogleDataSeries(e) {
-            if (typeof (e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
-                e.dataSeries.visible = false;
-            } else {
-                e.dataSeries.visible = true;
-            }
-            chart1.render();
-        }
-        if (!$.fn.dataTable.isDataTable('#tubeWellTable')) {
+
+        if (!$.fn.DataTable.isDataTable('#tubeWellTable')) {
 			function getBase64FromImageUrl(url) {
 				var img = new Image();
 					img.crossOrigin = "anonymous";
@@ -166,12 +120,10 @@
             $('#tubeWellTable').DataTable({
                 "scrollX": true,
                 "paging": false,
-				//"bSort": true,
-                //"ordering": false,
+                "ordering": false,
                 "info": false,
                 "columnDefs": [
                     { "className": "dt-center", "targets": "_all" }
-					,{ 'sortable': true, 'searchable': false, 'visible': false, 'type': 'num', 'targets': [0] }
                 ],
                 dom: 'Bfrtip',
                 //buttons: [
@@ -182,8 +134,8 @@
                     {
                         extend: 'excelHtml5',
                         title: '@Session["ReportTitle"]'
-                    }
-					,{
+                    },
+                    {
                         extend: 'pdfHtml5',
                         title: '@Session["ReportTitle"]',
 						orientation: 'landscape',
@@ -210,9 +162,9 @@
 								// It's important to create enough space at the top for a header !!!
 								doc.pageMargins = [50,90,50,60];
 								// Set the font size fot the entire document
-								doc.defaultStyle.fontSize = 9;
+								doc.defaultStyle.fontSize = 6;
 								// Set the fontsize for the table header
-								doc.styles.tableHeader.fontSize = 9;
+								doc.styles.tableHeader.fontSize = 7;
 								// Create a header object with 3 columns
 								// Left side: Logo
 								// Middle: brandname
@@ -290,100 +242,61 @@
     </script>
 
     <script type="text/javascript">
-                am4core.ready(function () {
-                    am4core.useTheme(am4themes_animated);
-                    var chart1 = am4core.create("chartContainer2", am4charts.XYChart3D);
-                    //chart.scrollbarX = new am4core.Scrollbar();
+     am4core.ready(function () {
+            am4core.useTheme(am4themes_animated);
+            var jsonObj = @Html.Raw(ViewData["amChartData"]);
+            var chart = am4core.create("chartContainer2", am4charts.XYChart);
+            chart.paddingLeft = 30;
+            let title = chart.titles.create();
+            title.text = "Water Flow Data";
+            title.fontSize = 25;
+            title.marginBottom = 10;
+            var dateAxis = chart.xAxes.push(new am4charts.DateAxis());
+            dateAxis.baseInterval = {
+                "timeUnit": "minute",
+                "count": 1
+            };
+            dateAxis.dateFormats.setKey('hour', 'hh:mm a');
+            dateAxis.tooltipDateFormat = " d-MM-yyyy hh:mm:ss a";
+            var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+            valueAxis.tooltip.disabled = true;
+            valueAxis.renderer.labels.template.disabled = true;
+            //valueAxis.min = -0.2;
+            //valueAxis.max = 1.2;
 
-                    // Add data
-                    chart1.angle = 35;
-                    chart1.data = @Html.Raw(ViewData["amChartData1"]);
-                    console.log(chart1.data);
-                    chart1.paddingTop = 50;
-                    var title = chart1.titles.create();
-                    title.text = "All Energy Parameters Data";
-                    title.fontSize = 25;
-                    title.marginBottom = 10;
-                    // Create axes
-                    var categoryAxis1 = chart1.xAxes.push(new am4charts.CategoryAxis());
-                    categoryAxis1.dataFields.category = "category";
-                    //categoryAxis1.renderer.grid.template.location = 0;
-                    categoryAxis1.renderer.minGridDistance = 30;
-                    //categoryAxis1.renderer.labels.template.rotation = -90;
-                    categoryAxis1.renderer.inside = true;
-                    categoryAxis1.renderer.labels.template.valign = "top";
-                    categoryAxis1.tooltip.disabled = true;
-                    categoryAxis1.renderer.grid.template.strokeWidth = 0;
-                    categoryAxis1.renderer.labels.template.fontSize = 0;
-                    var valueAxis1 = chart1.yAxes.push(new am4charts.ValueAxis());
-                    valueAxis1.renderer.grid.template.strokeWidth = 0;
-                    valueAxis1.min = 0;
-                    valueAxis1.extraMax = 0.05;
-                    // Create series
-                    var series1 = chart1.series.push(new am4charts.ConeSeries());
-                    series1.sequencedInterpolation = true;
-                    series1.dataFields.valueY = "value";
-                    series1.dataFields.tooltipText = "tooltip";
-                    series1.dataFields.categoryX = "category";
-                    series1.columns.template.strokeWidth = 0;
+            if (jsonObj.waterFlow.length === 0) { }
+            else
+            {
+                var series1 = chart.series.push(new am4charts.LineSeries());
+                var data1 = [];
+                //console.log(jsonObj[j].locationName);
+                for (var i = 0; i < jsonObj.SpellTimeArray.length; i++) {
+                    var Thedate = jsonObj.SpellTimeArray[i];
+                    //alert(Thedate);
+                    var changeDate = moment(Thedate, 'DD/MM/YYYY HH:mm:ss A').format("MM/DD/YYYY HH:mm:ss");
+                    var dateObj = new Date((changeDate));
+                    var valuep1 = jsonObj.waterFlow[i];
 
-                    series1.columns.template.tooltipText = "{categoryX}: {tooltipText}";
-                    series1.columns.template.tooltipY = 0;
-                    series1.tooltip.pointerOrientation = "vertical";
+                    var location = "Pattoki Water Filtration Plant";
 
-                    series1.columns.template.adapter.add("fill", function (fill, target) {
-                        return chart1.colors.getIndex(target.dataItem.index);
-                    })
-
-                    var legend1 = new am4charts.Legend();
-                    legend1.parent = chart1.chartContainer;
-                    //legend1.itemContainers.template.togglable = false;
-                    legend1.marginTop = 20;
-                    legend1.fontSize = 10;
-                    //legend1.labels.template.rotation = -45;
-
-                    series1.events.on("ready", function (ev) {
-                        var legenddata = [];
-                        series1.columns.each(function (column) {
-                            legenddata.push({
-                                name: column.dataItem.categoryX,
-                                fill: column.fill,
-                                columnDataItem: column.dataItem
-                            });
-                        });
-                        legend1.data = legenddata;
-                    });
-
-                    legend1.itemContainers.template.events.on("hit", function (ev) {
-                        //console.log("Clicked on ", ev.target.dataItem.className);
-                        if (!ev.target.isActive) {
-                            ev.target.dataItem.dataContext.columnDataItem.hide();
-                        }
-                        else {
-                            ev.target.dataItem.dataContext.columnDataItem.show();
-                        }
-                    });
-
-                    legend1.itemContainers.template.events.on("over", function (ev) {
-                        ev.target.dataItem.dataContext.columnDataItem.column.isHover = true;
-                        ev.target.dataItem.dataContext.columnDataItem.column.showTooltip();
-                    });
-
-                    legend1.itemContainers.template.events.on("out", function (ev) {
-                        ev.target.dataItem.dataContext.columnDataItem.column.isHover = false;
-                        ev.target.dataItem.dataContext.columnDataItem.column.hideTooltip();
-                    });
-
-                });
+                    data1.push({ location1: location, paramameter: 'Water Flow', date1: dateObj, value1: valuep1, status1: valuep1 + " ft" });
+                }
+                series1.data = data1;
+                series1.dataFields.dateX = "date1";
+                series1.dataFields.valueY = "value1";
+                series1.dataFields.status1 = "status1";
+                series1.dataFields.location = "location1";
+                series1.tooltipText = " Water Flow: [bold]{status1}[/] ";
+                series1.name = 'Water Flow';
+                series1.fillOpacity = 0.3;
 
 
+            }
+            chart.cursor = new am4charts.XYCursor();
+            chart.cursor.lineY.opacity = 0;
+            chart.legend = new am4charts.Legend();
+        });
     </script>
-
 </body>
-
-
-
-
-
 
 

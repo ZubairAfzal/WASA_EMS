@@ -121,7 +121,7 @@ namespace WASA_EMS
                                 parameterValuesString += "Tank No. 1" + ": ";
                                 valuee = Math.Round(Convert.ToDouble(sdr1["parameterValue"]), 1).ToString() + " ft";
                             }
-                            else if (sdr1["ParameterName"].ToString() == "Mode")
+                            else if (sdr1["ParameterName"].ToString() == "Manual Mode")
                             {
                                 parameterValuesString += "Mode " + ": ";
                                 if (sdr1["parameterValue"].ToString() == "1")
